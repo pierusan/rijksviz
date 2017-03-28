@@ -1,0 +1,14 @@
+
+.view {
+    width: 650px;
+    padding: 0.5em;
+    float: left;
+}
+
+.paintingImage {
+  width: 500px;
+}
+
+.myTitle {
+  margin-bottom: 10px;
+}
