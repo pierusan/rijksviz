@@ -23,4 +23,4 @@ Next:
 - Differences between acquisitions
 - # for physical Medium
 - # for Type of Acquisition (gift, loan, purchase)
-- Type of
+- Try facial Recognition from Kairos --> Try the JSON etc...
