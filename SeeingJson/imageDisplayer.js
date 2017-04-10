@@ -39,20 +39,27 @@ function paintingSearch(){
 
       var w = imageCol.node().getBoundingClientRect().width - 20;
 
-      //add image
-      imageCol.append("img")
-              .attr("src", paintingData.artObject.webImage.url)
-              .attr("alt", paintingData.artObject.title)
-              .style("width", w+"px");
+      if (paintingData.artObject.hasImage && paintingData.artObject.copyrightHolder == null){
+        //add image
+        imageCol.append("img")
+                .attr("src", paintingData.artObject.webImage.url)
+                .attr("alt", paintingData.artObject.title)
+                .style("width", w+"px");
 
-      //add image data
-      imageCol.append("div")
-                .append("p")
-                .style("overflow-wrap", "break-word")
-                .html(
-                  "<b>Resolution: "+ paintingData.artObject.webImage.width+" x "+paintingData.artObject.webImage.height+"</b>"+
-                  " Offset%X: "+ paintingData.artObject.webImage.offsetPercentageX+", Offset%Y: "+ paintingData.artObject.webImage.offsetPercentageY);
-
+        //add image data
+        imageCol.append("div")
+                  .append("p")
+                  .style("overflow-wrap", "break-word")
+                  .html(
+                    "<b>Resolution: "+ paintingData.artObject.webImage.width+" x "+paintingData.artObject.webImage.height+"</b>"+
+                    " Offset%X: "+ paintingData.artObject.webImage.offsetPercentageX+", Offset%Y: "+ paintingData.artObject.webImage.offsetPercentageY);
+      }
+      else{
+        imageCol.append("img")
+                .attr("src", "Data/Copyright.PNG")
+                .attr("alt", paintingData.artObject.title)
+                .style("width", w+"px");
+      }
       //add colors
       var imageColors1 = imageCol.append("div")
                         .classed("row", "true")

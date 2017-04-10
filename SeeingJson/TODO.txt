@@ -1,7 +1,6 @@
-Remove the Historical persons?
 Still display the ones which don't have image
 Check the ones which don't have titles --> Put Subtitle! (date, artist)
-Check the Copyright thing (for recent paintings)
+For the copyright, check if the tiles exist
 
 Investigate differences between different artists
 
