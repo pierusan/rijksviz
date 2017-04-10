@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Search pieces</title>
+    <link rel="stylesheet" href="styles.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://d3js.org/d3.v4.js"></script>
+</head>
+
+<body>
+  <div class="container">
+      <header >
+          <!--<h1>Rijks API: 1 collection piece</h1>-->
+          Type: <input type="text" name="type" id="typeID" value="painting" />
+          <!--Involved Maker: <input type="text" name="invMaker" id="invMakerID" value="Rembrandt+Harmensz.+van+Rijn" />-->
+          Involved Maker: <input list="makers" id="invMakerID"/>
+          <datalist id="makers">
+            <option data-value="Rembrandt+Harmensz.+van+Rijn">Rembrandt</option>
+            <option data-value="Johannes+Vermeer">Vermeer</option>
+            <option data-value="Paul%20Joseph%20Constantin%20Gabriël">Gabriël</option>
+            <option data-value="George+Hendrik+Breitner">Breitner</option>
+            <option data-value="Johan+Hendrik+Weissenbruch">Weissenbruch</option>
+            <option data-value="Gerard+Bilders">Bilders</option>
+            <option data-value="Isaac+Israels">Israels</option>
+            <option data-value="Josephus+Augustus+Knip">Knip</option>
+            <option data-value="Jan+Toorop">Toorop</option>
+            <option data-value="Wouter+Johannes+van+Troostwijk">Troostwijk</option>
+            <option data-value="Nicolaas+Pieneman">Pieneman</option>
+            <option data-value="Joseph+Paelinck">Paelinck</option>
+            <option data-value="Jacob+Appel+(I)">Appel</option>
+            <option data-value="James+Abbott+McNeill+Whistler">Whistler</option>
+            <option data-value="Vincent+van+Gogh">Van Gogh</option>
+            <option data-value="Francisco+de+Goya">Goya</option>
+            <option data-value=""></option>
+          </datalist>
+          Img Only: <input type="text" name="imgOnly" id="imgOnlyID" value="True" />
+          Query: <input type="text" name="query" id="queryID" value="" />
+          <br />
+          Dating Period: <input type="text" name="datingPeriod" id="datingPeriodID" placeholder="17" />
+          Title: <input type="text" name="title" id="titleID" placeholder="Portrait; Five+Javanese" />
+          On Display: <input type="text" name="onDisplay" id="onDisplayID" value="True" />
+          Sort by: <input type="text" name="sort" id="sortID" placeholder="achronologic" />
+          <br />
+          Acquisition keywords: <input type="text" name="acq" id="acqID" placeholder="Loan; Purchased; Gift" />
+          <button onclick="advSearch()">Search Painting</button>
+          <h4 class="myTitle" id="subTitle"></h4>
+          <h4 class="myTitle" id="count"></h4>
+      </header>
+
+      <div id="piecesDiv">
+
+      </div>
+  </div>
+
+<script type="application/javascript" src="advSearchGeneral.js"></script>
+</body>
+
+</html>

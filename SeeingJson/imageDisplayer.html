@@ -13,7 +13,12 @@
   <div class="container">
       <header >
           <!--<h1>Rijks API: 1 collection piece</h1>-->
-          <h4 class="myTitle" id="subTitle"></h2>
+          <input type="text" name="name" id="paintSearchID" placeholder="Piece ID: sk-c-5" />
+          <select id="paintSearchID2" value="" />
+            <<option value="sk-c-5">NightWatch</option>
+          </select>
+          <button onclick="paintingSearch()">Search Painting</button>
+          <h4 class="myTitle" id="subTitle"></h4>
       </header>
 
       <div id="imageDiv">
@@ -21,7 +26,7 @@
       </div>
   </div>
 
-<script type="application/javascript" src="script.js"></script>
+<script type="application/javascript" src="imageDisplayer.js"></script>
 </body>
 
 </html>
