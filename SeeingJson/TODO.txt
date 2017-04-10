@@ -1,14 +1,19 @@
-Still display the ones which don't have image
-Check the ones which don't have titles --> Put Subtitle! (date, artist) [Was due to label]
+Optional:
 For the copyright, check if the tiles exist
+Make sure I check for the nulls in console
+
+Non Optional:
+Color picker --> https://bgrins.github.io/spectrum/
+And compare in the advanced search which ones work or not
 
 Investigate differences between different artists
 
 Go through RijksStudio to see what else we can provide
 
-Add color in the Advanced Search based on what is done in the advanced search
 
-They invested in Pieneman
+To investigate:
+- They invested in
+-
 Often no tags when no main title
 Loan, purchased, gift is here
 
@@ -17,10 +22,16 @@ Page to explore what's not in the collection
 Faces in the back door
 
 Next:
+Pierre:
 - Thumbnails
+- Try facial Recognition from Kairos --> Try the JSON etc...
+
+Kate:
 - Colors
 - Dimensions
-- Differences between acquisitions
+- Differences between acquisitions (gift, loan, purchase)
+- Time between Acquisition and (e.g. Pieneman)
+
+John: Bar graphs
 - # for physical Medium
 - # for Type of Acquisition (gift, loan, purchase)
-- Try facial Recognition from Kairos --> Try the JSON etc...

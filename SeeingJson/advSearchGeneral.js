@@ -1,3 +1,5 @@
+var nbWithoutImages = 0;
+
 function advSearch(){
 
   d3.select("#piecesDiv").selectAll("*").remove();
@@ -11,6 +13,7 @@ function advSearch(){
   var onDisplayID = document.getElementById("onDisplayID").value;
   var sortID = document.getElementById("sortID").value;
   var acqID = document.getElementById("acqID").value;
+  var colorID = document.getElementById("colorID").value;
 
 /**
   console.log(queryID);
@@ -57,6 +60,9 @@ function advSearch(){
   }
   if (acqID != ""){
     piecesUrl += "&credits="+acqID;
+  }
+  if (colorID != ""){
+    piecesUrl += "&f.normalized32Colors.hex=%23"+colorID;
   }
 
   d3.select("#subTitle")
@@ -113,6 +119,11 @@ function DisplayPaintingInfo(id, nb){
         paintingData = json;
 
         if (!paintingData.artObject.hasImage){
+          /**
+          console.log(paintingData.artObject.objectNumber+" has NO IMAGE");
+          nbWithoutImages++;
+          console.log(nbWithoutImages);
+          **/
           return;
         }
 
@@ -123,7 +134,7 @@ function DisplayPaintingInfo(id, nb){
                           .append("div")
                           .classed("row", true);
 
-        //ADD TITLE
+        //ADD TITLE - IE WHAT IS ON THE LABEL AT THE MUSEUM
         if (paintingData.artObject.label.title != null){
           imageTitle.append("h3")
                       .html(paintingData.artObject.label.title);
@@ -131,9 +142,25 @@ function DisplayPaintingInfo(id, nb){
                       .html(paintingData.artObject.label.makerLine)
                       .style("padding-bottom", "30px");
         }
+        //IF THE LABEL HAS NOT BEEN CREATED (NOT DISPLAYED), PUT OUR OWN TITLE AND SUBTITLE
         else{
           imageTitle.append("h3")
                       .html(paintingData.artObject.title);
+
+          var label = paintingData.artObject.principalMakers[0].name;
+          if (paintingData.artObject.principalMakers[0].dateOfBirth != null && paintingData.artObject.principalMakers[0].dateOfDeath != null){
+            label += " ("+paintingData.artObject.principalMakers[0].dateOfBirth.split("-")[0]+"-"+paintingData.artObject.principalMakers[0].dateOfDeath.split("-")[0]+")";
+          }
+          label += ", "+paintingData.artObject.physicalMedium+", ";
+          if (paintingData.artObject.dating.yearEarly == paintingData.artObject.dating.yearLate){
+            label += paintingData.artObject.dating.yearLate;
+          }
+          else{
+            label += paintingData.artObject.dating.yearEarly + " - "+ paintingData.artObject.dating.yearLate;
+          }
+          imageTitle.append("h4")
+                      .html(label)
+                      .style("padding-bottom", "30px");
         }
 
         //IMAGE AND COLORS
@@ -143,19 +170,24 @@ function DisplayPaintingInfo(id, nb){
         var w = imageCol.node().getBoundingClientRect().width - 20;
 
         if (paintingData.artObject.hasImage && paintingData.artObject.copyrightHolder == null){
-          //add image
-          imageCol.append("img")
-                  .attr("src", paintingData.artObject.webImage.url)
-                  .attr("alt", paintingData.artObject.title)
-                  .style("width", w+"px");
+          if (paintingData.artObject.webImage != null){
+            //add image
+            imageCol.append("img")
+                    .attr("src", paintingData.artObject.webImage.url)
+                    .attr("alt", paintingData.artObject.title)
+                    .style("width", w+"px");
 
-          //add image data
-          imageCol.append("div")
-                    .append("p")
-                    .style("overflow-wrap", "break-word")
-                    .html(
-                      "<b>Resolution: "+ paintingData.artObject.webImage.width+" x "+paintingData.artObject.webImage.height+"</b>"+
-                      " Offset%X: "+ paintingData.artObject.webImage.offsetPercentageX+", Offset%Y: "+ paintingData.artObject.webImage.offsetPercentageY);
+            //add image data
+            imageCol.append("div")
+                      .append("p")
+                      .style("overflow-wrap", "break-word")
+                      .html(
+                        "<b>Resolution: "+ paintingData.artObject.webImage.width+" x "+paintingData.artObject.webImage.height+"</b>"+
+                        " Offset%X: "+ paintingData.artObject.webImage.offsetPercentageX+", Offset%Y: "+ paintingData.artObject.webImage.offsetPercentageY);
+          }
+          else{
+            console.log(paintingData.artObject.objectNumber+" has no copyright but also no image");
+          }
         }
         else{
           imageCol.append("img")
