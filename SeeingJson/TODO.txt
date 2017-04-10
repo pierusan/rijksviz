@@ -1,5 +1,5 @@
 Still display the ones which don't have image
-Check the ones which don't have titles --> Put Subtitle! (date, artist)
+Check the ones which don't have titles --> Put Subtitle! (date, artist) [Was due to label]
 For the copyright, check if the tiles exist
 
 Investigate differences between different artists
@@ -12,6 +12,15 @@ They invested in Pieneman
 Often no tags when no main title
 Loan, purchased, gift is here
 
-COOOOOL IDEA: NON EXPOSED --> 21st Century
+COOOOOL IDEA: NON DISPLAYED --> 21st Century
 Page to explore what's not in the collection
 Faces in the back door
+
+Next:
+- Thumbnails
+- Colors
+- Dimensions
+- Differences between acquisitions
+- # for physical Medium
+- # for Type of Acquisition (gift, loan, purchase)
+- Type of
