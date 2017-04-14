@@ -4,6 +4,7 @@ function advSearch(){
 
   d3.select("#piecesDiv").selectAll("*").remove();
 
+  // get value of search input boxes
   var queryID = document.getElementById("queryID").value;
   var typeID = document.getElementById("typeID").value;
   var invMakerID = document.getElementById("invMakerID").value;
@@ -24,8 +25,10 @@ function advSearch(){
   console.log(invMakerID == "");
 **/
 
+  // JSON
   var piecesData;
 
+  // make URL with input text
   var nbInOnePage = 100;
   var piecesUrl = "https://www.rijksmuseum.nl/api/en/collection?key=rgAMNabw&format=json&ps="+nbInOnePage;
 
@@ -99,11 +102,13 @@ function DisplayPage(pageUrl, pageNb, nbInOnePage, piecesDiv){
     var pageData = json2;
 
     for (var i = 0; i < parseInt(pageData.artObjects.length); i++){
+      // creating unique identfier for each painting (image + info)
       var realNb = nbInOnePage * (pageNb-1) + i;
       //console.log("Image Number: "+realNb);
       piecesDiv.append("div")
                .attr("id", "imageDiv"+realNb);
 
+      // param: their unique identifier, your unique identifier
       DisplayPaintingInfo(pageData.artObjects[i].objectNumber, realNb);
     }
   });
@@ -111,6 +116,9 @@ function DisplayPage(pageUrl, pageNb, nbInOnePage, piecesDiv){
 
 function DisplayPaintingInfo(id, nb){
 
+    // include the additional info from the JSON not originally provided by the general search
+    // 1. gets info
+    // 2. makes display
     var url = "https://www.rijksmuseum.nl/api/en/collection/"+id+"?key=rgAMNabw&format=json";
 
     d3.json(url, function (json) {
@@ -118,6 +126,7 @@ function DisplayPaintingInfo(id, nb){
         //console.log(json);
         paintingData = json;
 
+        // no image 
         if (!paintingData.artObject.hasImage){
           /**
           console.log(paintingData.artObject.objectNumber+" has NO IMAGE");
@@ -173,6 +182,7 @@ function DisplayPaintingInfo(id, nb){
           if (paintingData.artObject.webImage != null){
             //add image
             imageCol.append("img")
+                    // kate !!!
                     .attr("src", paintingData.artObject.webImage.url)
                     .attr("alt", paintingData.artObject.title)
                     .style("width", w+"px");
