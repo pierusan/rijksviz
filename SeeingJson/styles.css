@@ -12,3 +12,8 @@
 .myTitle {
   margin-bottom: 10px;
 }
+
+.small-padding .col-md-1{
+  padding-left: 3px;
+  padding-right: 3px;
+}
