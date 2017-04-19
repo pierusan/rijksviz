@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Faces - 1 piece</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="kairos.js"></script>
+  <script src ="facesOneImage.js"></script>
+</head>
+
+<body>
+  <input type="text" name="name" id="paintSearchID" placeholder="Piece ID: sk-c-5" />
+  <select id="paintSearchID2" value="" />
+    <option value="sk-c-5">NightWatch</option>
+    <option value="SK-A-2344">The Milkmaid</option>
+    <option value="SK-A-465">van der Werff</option>
+    <option value="SK-A-2963">Don Ramon Satue</option>
+    <option value="SK-A-1703">Therese Schwartze</option>
+    <option value="SK-C-170">William II</option>
+    <option value="SK-A-3830">Jan Stolker</option>
+    <option value="SK-A-4986">Jan Jansz Mostaert</option>
+    <option value="SK-A-5013">Family of Adriaan Bonebakker</option>
+  </select>
+  <button onclick="paintingSearch()">Search Painting</button>
+
+  <div class="row">
+    <canvas id="myCanvas" width="3000" height="3000"></canvas>
+  </div>
+
+
+</body>
+</html>

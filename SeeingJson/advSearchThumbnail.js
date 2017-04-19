@@ -1,5 +1,21 @@
 var nbWithoutImages = 0;
-var thumbnailWidth = 89;
+
+//Maximum Width or Height of our images
+//var maxWidthHeight = 89;
+//var maxWidthHeight = 178;
+//var maxWidthHeight = 267;
+//var maxWidthHeight = 356;
+//var maxWidthHeight = 534;
+var maxWidthHeight = 1068;
+
+
+//Lenght of the images containers (in bootstrap units)
+//var columnWidth = 1;
+//var columnWidth = 2;
+//var columnWidth = 3;
+//var columnWidth = 4;
+//var columnWidth = 6;
+var columnWidth = 12;
 
 function advSearch(){
 
@@ -16,15 +32,6 @@ function advSearch(){
   var sortID = document.getElementById("sortID").value;
   var acqID = document.getElementById("acqID").value;
   var colorID = document.getElementById("colorID").value;
-
-/**
-  console.log(queryID);
-  console.log(queryID == "");
-  console.log(typeID);
-  console.log(typeID == "");
-  console.log(invMakerID);
-  console.log(invMakerID == "");
-**/
 
   // JSON
   var piecesData;
@@ -86,24 +93,22 @@ function advSearch(){
 
     var piecesDiv = d3.select("#piecesDiv");
 
-    console.log("Before FOR loop");
+    var modulo = 12 / columnWidth;
+
     for (j = 0; j < piecesData.count; j++){
-      if (j%12 == 0){
-        console.log("Adding a Row");
+      if (j%modulo == 0){
         piecesDiv.append("row")
                   .classed("row", true)
                   .classed("small-padding", true);
       }
       d3.selectAll("#piecesDiv")
                 .each(function(d, i){
-                  console.log("in the ")
                   var lastRow = this.lastChild;
                   d3.select(lastRow).append("div")
-                         .classed("col-md-1", true)
+                         .classed("col-md-"+columnWidth, true)
                          .attr("id","imageDiv"+j);
                 })
     }
-    console.log("After FOR loop");
 
     //Sort through the number of pages
     for ( j = 1; j < Math.floor( (parseInt(piecesData.count) - 1) / nbInOnePage) +2; j++){
@@ -144,21 +149,18 @@ function DisplayPaintingThumbnail(objNumber, nb){
     if (paintingData.artObject.hasImage && paintingData.artObject.copyrightHolder == null){
       if (paintingData.artObject.webImage != null){
         //add image
-        imageCol.append("img")
+        var im = imageCol.append("img")
                 // kate !!!
                 .attr("src", paintingData.artObject.webImage.url)
-                .attr("alt", paintingData.artObject.title)
-                .style("width", thumbnailWidth+"px");
+                .attr("alt", paintingData.artObject.title);
 
-        /**
-        //add image data
-        imageCol.append("div")
-                  .append("p")
-                  .style("overflow-wrap", "break-word")
-                  .html(
-                    "<b>Resolution: "+ paintingData.artObject.webImage.width+" x "+paintingData.artObject.webImage.height+"</b>"+
-                    " Offset%X: "+ paintingData.artObject.webImage.offsetPercentageX+", Offset%Y: "+ paintingData.artObject.webImage.offsetPercentageY);
-        **/
+        if (paintingData.artObject.webImage.width > paintingData.artObject.webImage.height){
+          im.style("width", maxWidthHeight+"px");
+        }
+        else{
+          im.style("height", maxWidthHeight+"px");
+        }
+
       }
       else{
         console.log(paintingData.artObject.objectNumber+" has no copyright but also no image");
@@ -168,7 +170,7 @@ function DisplayPaintingThumbnail(objNumber, nb){
       imageCol.append("img")
               .attr("src", "Data/Copyright.PNG")
               .attr("alt", paintingData.artObject.title)
-              .style("width", thumbnailWidth+"px");
+              .style("width", maxWidthHeight+"px");
     }
 
 
