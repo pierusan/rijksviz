@@ -16,6 +16,8 @@ var lineW = 2;
 var strkClMen = '#139C8A';
 var strkClWomen = '#ffb6c1';
 
+var dict = []; // create an empty array
+
 //Search for the painting
 function paintingSearch(){
 
@@ -49,6 +51,12 @@ function paintingSearch(){
       //If the face detection data hasn't been store on local file yet, make a call to Kairos API
       if (http.status == 404){
             if (paintingData.artObject.hasImage && paintingData.artObject.copyrightHolder == null){
+
+
+              dict.push({
+                  key: paintingData.artObject.webImage.url.split("googleusercontent.com/")[1],
+                  value: paintingID
+              });
               getKairosJson(paintingData.artObject.webImage.url);
             }
       }
@@ -73,11 +81,14 @@ function myKairosCallback(response){
   console.log("Kairos Data: ");
   console.log(response);
 
+  console.log(JSON.parse(response.responseText));
+  console.log(JSON.parse(response.responseText).images[0].file);
+
   //Download the resulting Json
-  downloadText( response.responseText, paintingID+".json");
+  downloadText( response.responseText, dict[JSON.parse(response.responseText).images[0].file]+".json");
 
   //Display the face recognition and the image on the screen
-  displayKairos(folderPath+""+paintingID+".json");
+  //displayKairos(folderPath+""+dict[JSON.parse(response.responseText).image[0].file]+".json");
 }
 
 function getKairosJson(imageUrl){

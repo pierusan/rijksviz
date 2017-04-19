@@ -1,3 +1,5 @@
+SK-A-3814 have the dictionary working for Kairos with this. Right now undefined
+
 Optional:
 For the copyright, check if the tiles exist
 Make sure I check for the nulls in console

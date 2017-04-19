@@ -1,8 +1,18 @@
+// Kairos SDK parameters
+var kairos = new Kairos("07085ed9", "898a579671ad835e6888fb3c4805b435");
+
+//Local folder where the Face Detection Json are stored
+var folderPath = "KairosJson/";
+
+//Parameters for the display of image and faces bounding box
+var lineW = 2;
+var strkClMen = '#139C8A';
+var strkClWomen = '#ffb6c1';
+
 var nbWithoutImages = 0;
 
 var columnWidth = 12;
 var maxWidthHeight = 1068;
-
 
 function advSearch(){
 
@@ -186,6 +196,59 @@ function DisplayPaintingThumbnail(objNumber, nb){
               .style("width", maxWidthHeight+"px");
     }
 
+    ptingId = objNumber.toLowerCase();
+
+    //Path for the json Face Detection
+    var http = new XMLHttpRequest();
+    http.open('HEAD', folderPath+""+ptingID+".json", false);
+    http.send();
+    //console.log(http.status!=404);
+
+    //If the face detection data hasn't been store on local file yet, make a call to Kairos API
+    if (http.status == 404){
+          if (paintingData.artObject.hasImage && paintingData.artObject.copyrightHolder == null){
+            getKairosJson(paintingData.artObject.webImage.url);
+          }
+    }
 
   });
+}
+
+//Download the KairosJSON to local file
+function downloadText(text, filename){
+  var a = document.createElement('a');
+  a.setAttribute('href', 'data:text/plain;charset=utf-u,'+encodeURIComponent(text));
+  a.setAttribute('download', filename);
+  a.click()
+}
+
+//Function called when the Kairos API has found an answer
+function myKairosCallback(response){
+  console.log("Kairos Data: ");
+  console.log(response);
+
+  //Download the resulting Json
+  downloadText( response.responseText, paintingID+".json");
+
+  //Display the face recognition and the image on the screen
+  displayKairos(folderPath+""+paintingID+".json");
+}
+
+function getKairosJson(imageUrl){
+  //console.log("Into Load Kairos!");
+  //console.log("Image URL: "+imageUrl);
+
+  //Clean the image URL to fit Kairos API
+  var image_data = String(imageUrl);
+  image_data = image_data.replace("data:image/jpeg;base64,", "");
+  image_data = image_data.replace("data:image/jpg;base64,", "");
+  image_data = image_data.replace("data:image/png;base64,", "");
+  image_data = image_data.replace("data:image/gif;base64,", "");
+  image_data = image_data.replace("data:image/bmp;base64,", "");
+
+  var options = { "selector" : "FULL"};
+
+  //Call to the Kairos API
+  kairos.detect(image_data, myKairosCallback, options);
+
 }
