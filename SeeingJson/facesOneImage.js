@@ -16,7 +16,7 @@ var lineW = 2;
 var strkClMen = '#139C8A';
 var strkClWomen = '#ffb6c1';
 
-var dict = []; // create an empty array
+var dict = {}; // create an empty array
 
 //Search for the painting
 function paintingSearch(){
@@ -51,12 +51,16 @@ function paintingSearch(){
       //If the face detection data hasn't been store on local file yet, make a call to Kairos API
       if (http.status == 404){
             if (paintingData.artObject.hasImage && paintingData.artObject.copyrightHolder == null){
-
-
+              console.log("Pushing the key: "+paintingData.artObject.webImage.url.split(".com/")[1]);
+              console.log("Pushing the paintingID: "+paintingID);
+              /**
               dict.push({
-                  key: paintingData.artObject.webImage.url.split("googleusercontent.com/")[1],
+                  key: paintingData.artObject.webImage.url.split(".com/")[1],
                   value: paintingID
               });
+              **/
+              dict[paintingData.artObject.webImage.url.split(".com/")[1]] = paintingID;
+              console.log("Accessing the dict: "+dict[paintingData.artObject.webImage.url.split(".com/")[1]]);
               getKairosJson(paintingData.artObject.webImage.url);
             }
       }
