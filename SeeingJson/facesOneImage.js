@@ -10,13 +10,31 @@ var paintingImageURL = null;
 //Local folder where the Face Detection Json are stored
 var folderPath = "KairosJson/";
 
+//Associate fileName with painting IDs
+var fileToIdDict = {};
+
+//JSON which will be created if no face has been recognized
+var errorJson = '{"Errors":[{"Message":"no faces found in the image","ErrCode":5002}]}';
+
 //Parameters for the display of image and faces bounding box
 var resizingFactor = 3;
 var lineW = 2;
 var strkClMen = '#139C8A';
 var strkClWomen = '#ffb6c1';
 
-var dict = {}; // create an empty array
+//Called to create Json files for the paintings without faces
+function fillEmptyFaces(){
+  for (var key in fileToIdDict) {
+    var http = new XMLHttpRequest();
+    http.open('HEAD', folderPath+""+fileToIdDict[key]+".json", false);
+    http.send();
+
+    if (http.status == 404){
+      //console.log(fileToIdDict[key]);
+      downloadText( errorJson, fileToIdDict[key]+".json");
+    }
+  }
+}
 
 //Search for the painting
 function paintingSearch(){
@@ -53,14 +71,10 @@ function paintingSearch(){
             if (paintingData.artObject.hasImage && paintingData.artObject.copyrightHolder == null){
               console.log("Pushing the key: "+paintingData.artObject.webImage.url.split(".com/")[1]);
               console.log("Pushing the paintingID: "+paintingID);
-              /**
-              dict.push({
-                  key: paintingData.artObject.webImage.url.split(".com/")[1],
-                  value: paintingID
-              });
-              **/
-              dict[paintingData.artObject.webImage.url.split(".com/")[1]] = paintingID;
-              console.log("Accessing the dict: "+dict[paintingData.artObject.webImage.url.split(".com/")[1]]);
+
+              //Store the Kairos query in our array
+              fileToIdDict[paintingData.artObject.webImage.url.split(".com/")[1]] = paintingID;
+
               getKairosJson(paintingData.artObject.webImage.url);
             }
       }
@@ -85,20 +99,16 @@ function myKairosCallback(response){
   console.log("Kairos Data: ");
   console.log(response);
 
-  console.log(JSON.parse(response.responseText));
-  console.log(JSON.parse(response.responseText).images[0].file);
-
   //Download the resulting Json
-  downloadText( response.responseText, dict[JSON.parse(response.responseText).images[0].file]+".json");
+  if (JSON.parse(response.responseText).images !=null){
+    downloadText( response.responseText, fileToIdDict[JSON.parse(response.responseText).images[0].file]+".json");
+  }
 
   //Display the face recognition and the image on the screen
-  //displayKairos(folderPath+""+dict[JSON.parse(response.responseText).image[0].file]+".json");
+  //displayKairos(folderPath+""+fileToIdDict[JSON.parse(response.responseText).image[0].file]+".json");
 }
 
 function getKairosJson(imageUrl){
-  //console.log("Into Load Kairos!");
-  //console.log("Image URL: "+imageUrl);
-
   //Clean the image URL to fit Kairos API
   var image_data = String(imageUrl);
   image_data = image_data.replace("data:image/jpeg;base64,", "");
@@ -111,7 +121,6 @@ function getKairosJson(imageUrl){
 
   //Call to the Kairos API
   kairos.detect(image_data, myKairosCallback, options);
-
 }
 
 //Display Faces Bounding Boxes from the stored JSON file
@@ -132,8 +141,10 @@ function displayKairos(jsonURL){
       //Draw image
       context.drawImage(imageObj, 0, 0, imageObj.width / resizingFactor, imageObj.height / resizingFactor);
       //Then draw faces
-      for (j = 0; j < kairJson.images[0].faces.length; j++){
-        drawFace(kairJson.images[0].faces[j], context, resizingFactor);
+      if (kairJson.images!=null){
+        for (j = 0; j < kairJson.images[0].faces.length; j++){
+          drawFace(kairJson.images[0].faces[j], context, resizingFactor);
+        }
       }
     }
 

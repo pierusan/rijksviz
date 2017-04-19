@@ -4,7 +4,14 @@ var kairos = new Kairos("07085ed9", "898a579671ad835e6888fb3c4805b435");
 //Local folder where the Face Detection Json are stored
 var folderPath = "KairosJson/";
 
+//Associate fileName with painting IDs
+var fileToIdDict = {};
+
+//JSON which will be created if no face has been recognized
+var errorJson = '{"Errors":[{"Message":"no faces found in the image","ErrCode":5002}]}';
+
 //Parameters for the display of image and faces bounding box
+var resizingFactor = 3;
 var lineW = 2;
 var strkClMen = '#139C8A';
 var strkClWomen = '#ffb6c1';
@@ -13,6 +20,24 @@ var nbWithoutImages = 0;
 
 var columnWidth = 12;
 var maxWidthHeight = 1068;
+
+//Called to create Json files for the paintings without faces
+function fillEmptyFaces(){
+  //console.log("Fill Empty Faces!");
+  for (var key in fileToIdDict) {
+    //console.log("key");
+    //console.log(fileToIdDict[key]);
+
+    var http = new XMLHttpRequest();
+    http.open('HEAD', folderPath+""+fileToIdDict[key]+".json", false);
+    http.send();
+
+    if (http.status == 404){
+      //console.log(fileToIdDict[key]);
+      downloadText( errorJson, fileToIdDict[key]+".json");
+    }
+  }
+}
 
 function advSearch(){
 
@@ -196,7 +221,7 @@ function DisplayPaintingThumbnail(objNumber, nb){
               .style("width", maxWidthHeight+"px");
     }
 
-    ptingId = objNumber.toLowerCase();
+    var ptingID = objNumber.toLowerCase();
 
     //Path for the json Face Detection
     var http = new XMLHttpRequest();
@@ -207,8 +232,17 @@ function DisplayPaintingThumbnail(objNumber, nb){
     //If the face detection data hasn't been store on local file yet, make a call to Kairos API
     if (http.status == 404){
           if (paintingData.artObject.hasImage && paintingData.artObject.copyrightHolder == null){
+            console.log("Pushing the key: "+paintingData.artObject.webImage.url.split(".com/")[1]);
+            console.log("Pushing the paintingID: "+ptingID);
+
+            //Store the Kairos query in our array
+            fileToIdDict[paintingData.artObject.webImage.url.split(".com/")[1]] = ptingID;
+
             getKairosJson(paintingData.artObject.webImage.url);
           }
+    }
+    else{
+      //TODO: Handle the display here
     }
 
   });
@@ -228,10 +262,12 @@ function myKairosCallback(response){
   console.log(response);
 
   //Download the resulting Json
-  downloadText( response.responseText, paintingID+".json");
+  if (JSON.parse(response.responseText).images !=null){
+    downloadText( response.responseText, fileToIdDict[JSON.parse(response.responseText).images[0].file]+".json");
+  }
 
   //Display the face recognition and the image on the screen
-  displayKairos(folderPath+""+paintingID+".json");
+  //displayKairos(folderPath+""+fileToIdDict[JSON.parse(response.responseText).image[0].file]+".json");
 }
 
 function getKairosJson(imageUrl){
