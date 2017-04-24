@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Merge Kairos JSONs</title>
+    <link rel="stylesheet" href="styles.css"/>
+    <script src="https://d3js.org/d3.v4.js"></script>
+</head>
+
+<body>
+  <input type="file" id="files" name="files[]" multiple />
+  <output id="list"></output>
+  <br />
+  <button onclick="getKairos()">Open Json</button>
+
+  <script>
+    var nbFiles = 30000000;
+    var aggregateData = {};
+    aggregateData["paintings"] = [];
+
+    function handleFileSelect(evt) {
+      var files = evt.target.files; // FileList object
+      nbFiles = files.length;
+
+      // files is a FileList of File objects. List some properties.
+      var output = [];
+      for (var i = 0, f; f = files[i]; i++) {
+        aggData(f.name);
+      }
+      downloadAggJson();
+    }
+
+    function aggData(ptIngId){
+      d3.json("KairosJson/"+ptIngId, function (json) {
+        json.paintingId = ptIngId.split(".json")[0];
+        aggregateData.paintings.push(json);
+      });
+    }
+
+    function downloadAggJson(){
+      console.log(aggregateData.paintings.length);
+      while (aggregateData.paintings.length < nbFiles){
+        setTimeout(downloadAggJson,1000); // run donothing after 0.5 seconds
+        return;
+      }
+      console.log(aggregateData);;
+      downloadText(JSON.stringify(aggregateData), "allKairos.json");
+    }
+
+    function downloadText(text, filename){
+      var a = document.createElement('a');
+      a.setAttribute('href', 'data:text/plain;charset=utf-u,'+encodeURIComponent(text));
+      a.setAttribute('download', filename);
+      a.click()
+    }
+
+    function getKairos(){
+      d3.json("Data/allKairos.json", function(json){
+        console.log(json);
+        console.log(getFacesById(json,"bk-2011-40"));
+      });
+    }
+
+    function getFacesById(arr, code) {
+      return arr.paintings.filter(
+          function(element){ return element.paintingId == code }
+      );
+    }
+
+    document.getElementById('files').addEventListener('change', handleFileSelect, false);
+  </script>
+</body>
+
+</html>

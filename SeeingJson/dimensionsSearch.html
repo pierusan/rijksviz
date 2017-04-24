@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dimensions</title>
+    <link rel="stylesheet" href="styles.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="kairos.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+      <header >
+          <!--<h1>Rijks API: 1 collection piece</h1>-->
+          Type: <input type="text" name="type" id="typeID" value="painting" />
+          <!--Involved Maker: <input type="text" name="invMaker" id="invMakerID" value="Rembrandt+Harmensz.+van+Rijn" />-->
+          Involved Maker: <input list="makers" id="invMakerID" value="Paul%20Joseph%20Constantin%20Gabriël"/>
+          <datalist id="makers">
+            <option value="Rembrandt+Harmensz.+van+Rijn">Rembrandt</option>
+            <option value="Johannes+Vermeer">Vermeer</option>
+            <option value="Paul%20Joseph%20Constantin%20Gabriël">Gabriël</option>
+            <option value="George+Hendrik+Breitner">Breitner</option>
+            <option value="Johan+Hendrik+Weissenbruch">Weissenbruch</option>
+            <option value="Gerard+Bilders">Bilders</option>
+            <option value="Isaac+Israels">Israels</option>
+            <option value="Josephus+Augustus+Knip">Knip</option>
+            <option value="Jan+Toorop">Toorop</option>
+            <option value="Wouter+Johannes+van+Troostwijk">Troostwijk</option>
+            <option value="Nicolaas+Pieneman">Pieneman</option>
+            <option value="Joseph+Paelinck">Paelinck</option>
+            <option value="Jacob+Appel+(I)">Appel</option>
+            <option value="James+Abbott+McNeill+Whistler">Whistler</option>
+            <option value="Vincent+van+Gogh">Van Gogh</option>
+            <option value="Francisco+de+Goya">Goya</option>
+            <option value=""></option>
+          </datalist>
+          Img Only: <input type="text" name="imgOnly" id="imgOnlyID" value="True" />
+          Query: <input type="text" name="query" id="queryID" value="" />
+          <br />
+          Dating Period: <input type="text" name="datingPeriod" id="datingPeriodID" placeholder="17" />
+          Title: <input type="text" name="title" id="titleID" placeholder="Portrait; Five+Javanese" />
+          On Display: <input type="text" name="onDisplay" id="onDisplayID" value="False" />
+          Sort by: <input type="text" name="sort" id="sortID" placeholder="achronologic" />
+          <br />
+          Acquisition keywords: <input type="text" name="acq" id="acqID" placeholder="Loan; Purchased; Gift" />
+          Normalized Color:
+          <select id="colorID">
+              <option value="">Nothing</option>
+              <option value="737C84" style="background:#737C84"></option>
+              <option value="FBF6E1" style="background:#FBF6E1"></option>
+              <option value="2F4F4F" style="background:#2F4F4F"></option>
+              <option value="E0CC91" style="background:#E0CC91"></option>
+              <option value="FBF6E1" style="background:#FBF6E1"></option>
+              <option value="000000" style="background:#000000"></option>
+              <option value="B5BFCC" style="background:#B5BFCC"></option>
+              <option value="737C84" style="background:#737C84"></option>
+              <option value="B35A1F" style="background:#B35A1F"></option>
+              <option value="F6ECF3" style="background:#F6ECF3"></option>
+              <option value="981313" style="background:#981313"></option>
+              <option value="F49B7A" style="background:#F49B7A"></option>
+              <option value="DDA5AA" style="background:#DDA5AA"></option>
+              <option value="E09714" style="background:#E09714"></option>
+              <option value="B35A1F" style="background:#B35A1F"></option>
+              <option value="367614" style="background:#367614"></option>
+              <option value="4019B1" style="background:#4019B1"></option>
+              <option value="4279DB" style="background:#4279DB"></option>
+              <option value="DE4153" style="background:#DE4153"></option>
+              <option value="62AD77" style="background:#62AD77"></option>
+              <option value="8268DC" style="background:#8268DC"></option>
+              <option value="850085" style="background:#850085"></option>
+              <option value="DF4C93" style="background:#DF4C93"></option>
+              <option value="FFEB00" style="background:#FFEB00"></option>
+              <option value="DAAFDA" style="background:#DAAFDA"></option>
+          </select>
+          <button onclick="advSearch()">Show Painting Dimensions</button>
+
+          <h4 class="myTitle" id="subTitle"></h4>
+          <h4 class="myTitle" id="count"></h4>
+      </header>
+
+      <div id="myProgress">
+        <div id="myBar"></div>
+      </div>
+      <br />
+      <div id="piecesDiv">
+        <svg id="facesSVG" width="800", height="800">
+          <g id="yAxis"></g>
+          <g id="xAxis"></g>
+          <g id = "paintings"></g>
+        </svg>
+      </div>
+  </div>
+
+<script type="application/javascript" src="dimensionsSearch.js"></script>
+</body>
+
+</html>

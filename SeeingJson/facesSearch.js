@@ -6,6 +6,7 @@ var folderPath = "KairosJson/";
 
 //Associate fileName with painting IDs
 var fileToIdDict = {};
+var filesWithCopyright = [];
 
 //JSON which will be created if no face has been recognized
 var errorJson = '{"Errors":[{"Message":"no faces found in the image","ErrCode":5002}]}';
@@ -37,9 +38,15 @@ function fillEmptyFaces(){
       downloadText( errorJson, fileToIdDict[key]+".json");
     }
   }
+
+  for (i = 0; i < filesWithCopyright.length; i++){
+    downloadText( errorJson, filesWithCopyright[i]+".json");
+  }
 }
 
 function advSearch(){
+  fileToIdDict = {};
+  filesWithCopyright = [];
 
   var imagesPerColumnID = document.getElementById("imagesPerColumn").value;
   if (imagesPerColumnID == "1"){
@@ -61,10 +68,12 @@ function advSearch(){
   else if (imagesPerColumnID == "6") {
     maxWidthHeight = 178;
     columnWidth = 2;
+    lineW = 1;
   }
   else if (imagesPerColumnID == "12") {
     maxWidthHeight = 89;
     columnWidth = 1;
+    lineW = 1;
   }
 
   d3.select("#piecesDiv").selectAll("*").remove();
@@ -194,8 +203,14 @@ function DisplayPaintingThumbnail(objNumber, nb){
     }
     var imageCol = d3.select("#imageDiv"+nb);
 
+    var paintingImURL = "Data/Copyright.PNG";
+    var w = 415;
+    var h = 414;
+
     if (paintingData.artObject.hasImage && paintingData.artObject.copyrightHolder == null){
       if (paintingData.artObject.webImage != null){
+
+        /**
         //add image
         var im = imageCol.append("img")
                 // kate !!!
@@ -208,17 +223,27 @@ function DisplayPaintingThumbnail(objNumber, nb){
         else{
           im.style("height", maxWidthHeight+"px");
         }
+        **/
+
+        paintingImURL = paintingData.artObject.webImage.url;
+        w = paintingData.artObject.webImage.width;
+        h = paintingData.artObject.webImage.height;
 
       }
       else{
         console.log(paintingData.artObject.objectNumber+" has no copyright but also no image");
+        return;
       }
     }
     else{
+      /**
       imageCol.append("img")
               .attr("src", "Data/Copyright.PNG")
               .attr("alt", paintingData.artObject.title)
               .style("width", maxWidthHeight+"px");
+      **/
+
+
     }
 
     var ptingID = objNumber.toLowerCase();
@@ -240,13 +265,142 @@ function DisplayPaintingThumbnail(objNumber, nb){
 
             getKairosJson(paintingData.artObject.webImage.url);
           }
+          else{
+            filesWithCopyright.push(ptingID);
+          }
     }
     else{
       //TODO: Handle the display here
+      console.log("display");
+      displayKairos(folderPath+""+ptingID+".json", imageCol, paintingImURL, w, h);
+      //console.log("done displaying");
     }
 
   });
 }
+
+//Display Faces Bounding Boxes from the stored JSON file
+function displayKairos(jsonURL, imageCol, paintingImageURL, w, h){
+  //console.log("Displaying Face detection from file: "+jsonURL);
+  d3.json(jsonURL,function (error, kairJson) {
+    if (error) throw error;
+    //console.log(kairJson);
+
+    var canv = imageCol.append("canvas")
+                           .attr("width", maxWidthHeight)
+                           .attr("height", maxWidthHeight);
+
+    var context = canv.node().getContext('2d');
+    var imageObj = new Image();
+
+    var resFactor = 0;
+
+    if (w > h){
+      resFactor = w / maxWidthHeight;
+    }
+    else{
+      resFactor = h / maxWidthHeight;
+    }
+
+    //Callback when image is loaded
+    imageObj.onload = function()
+    {
+      //Draw image
+      context.drawImage(imageObj, 0, 0, imageObj.width / resFactor, imageObj.height / resFactor);
+      //Then draw faces
+      if (kairJson.images!=null){
+        for (j = 0; j < kairJson.images[0].faces.length; j++){
+          drawFace(kairJson.images[0].faces[j], context, resFactor);
+        }
+      }
+    }
+
+    imageObj.src = paintingImageURL;
+  });
+
+}
+
+//Draw face on Canvas on top of the image
+function drawFace(face, context, factor)
+{
+      // draw face box
+      context.beginPath();
+      context.rect(face.topLeftX / factor, face.topLeftY / factor, face.width / factor, face.height / factor);
+      context.lineWidth = lineW;
+      if (face.attributes.gender.type == "M"){
+        context.strokeStyle = strkClMen;
+      }
+      else{
+        context.strokeStyle = strkClWomen;
+      }
+      context.stroke();
+
+      // draw left eye
+      context.beginPath();
+      context.moveTo(face.leftEyeCornerLeftX / factor, face.leftEyeCornerLeftY / factor);
+      context.lineTo(face.leftEyeCornerRightX / factor, face.leftEyeCornerRightY / factor);
+      context.stroke();
+
+      context.beginPath();
+      context.moveTo(face.leftEyeCenterX / factor, (face.leftEyeCenterY  / factor+ (face.height / factor / 25)));
+      context.lineTo(face.leftEyeCenterX/ factor, (face.leftEyeCenterY / factor - (face.height / factor / 25)));
+      context.stroke();
+
+      // draw right eye
+      context.beginPath();
+      context.moveTo(face.rightEyeCornerLeftX / factor, face.rightEyeCornerLeftY / factor);
+      context.lineTo(face.rightEyeCornerRightX / factor, face.rightEyeCornerRightY / factor);
+      context.stroke();
+
+      context.beginPath();
+      context.moveTo(face.rightEyeCenterX / factor, (face.rightEyeCenterY / factor + (face.height / factor / 25)));
+      context.lineTo(face.rightEyeCenterX / factor, (face.rightEyeCenterY / factor - (face.height / factor / 25)));
+      context.stroke();
+
+      // left eyebrow
+      context.beginPath();
+      context.moveTo(face.leftEyeBrowLeftX / factor, face.leftEyeBrowLeftY / factor);
+      context.lineTo(face.leftEyeBrowMiddleX / factor, face.leftEyeBrowMiddleY / factor);
+      context.stroke();
+
+      context.beginPath();
+      context.moveTo(face.leftEyeBrowMiddleX / factor, face.leftEyeBrowMiddleY / factor);
+      context.lineTo(face.leftEyeBrowRightX / factor, face.leftEyeBrowRightY / factor);
+      context.stroke();
+
+      // right eyebrow
+      context.beginPath();
+      context.moveTo(face.rightEyeBrowLeftX / factor, face.rightEyeBrowLeftY / factor);
+      context.lineTo(face.rightEyeBrowMiddleX / factor, face.rightEyeBrowMiddleY / factor);
+      context.stroke();
+
+      context.beginPath();
+      context.moveTo(face.rightEyeBrowMiddleX / factor, face.rightEyeBrowMiddleY / factor);
+      context.lineTo(face.rightEyeBrowRightX / factor, face.rightEyeBrowRightY / factor);
+      context.stroke();
+
+      // draw mouth
+      context.beginPath();
+      context.moveTo(face.lipCornerLeftX / factor, face.lipCornerLeftY) / factor;
+      context.lineTo(face.lipLineMiddleX / factor, face.lipLineMiddleY / factor);
+      context.stroke();
+      context.beginPath();
+      context.moveTo(face.lipLineMiddleX / factor, face.lipLineMiddleY / factor);
+      context.lineTo(face.lipCornerRightX / factor, face.lipCornerRightY / factor);
+      context.stroke();
+
+      // draw nose
+      context.beginPath();
+      context.moveTo(face.nostrilLeftSideX / factor, face.nostrilLeftSideY / factor);
+      context.lineTo(face.nostrilLeftHoleBottomX / factor, face.nostrilLeftHoleBottomY / factor);
+      context.stroke();
+
+      context.beginPath();
+      context.moveTo(face.nostrilRightSideX / factor, face.nostrilRightSideY / factor);
+      context.lineTo(face.nostrilRightHoleBottomX / factor, face.nostrilRightHoleBottomY / factor);
+      context.stroke();
+}
+
 
 //Download the KairosJSON to local file
 function downloadText(text, filename){

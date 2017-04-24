@@ -17,3 +17,13 @@
   padding-left: 3px;
   padding-right: 3px;
 }
+
+#myProgress {
+    width: 100%;
+    background-color: grey;
+}
+#myBar {
+    width: 0%;
+    height: 10px;
+    background-color: green;
+}
