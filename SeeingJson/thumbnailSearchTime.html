@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Dimensions</title>
+    <title>Thumbnails Time - Search</title>
     <link rel="stylesheet" href="styles.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://d3js.org/d3.v4.js"></script>
@@ -75,7 +75,7 @@
               <option value="FFEB00" style="background:#FFEB00"></option>
               <option value="DAAFDA" style="background:#DAAFDA"></option>
           </select>
-          <button onclick="advSearch()">Show Painting Dimensions</button>
+          <button onclick="advSearch()">Search Paintings</button>
 
           <h4 class="myTitle" id="subTitle"></h4>
           <h4 class="myTitle" id="count"></h4>
@@ -86,15 +86,14 @@
       </div>
       <br />
       <div id="piecesDiv">
-        <svg id="facesSVG" width="500", height="500">
-          <g id="yAxis"></g>
+        <svg id="facesSVG" width="1140", height="3000">
           <g id="xAxis"></g>
-          <g id = "paintings"></g>
+          <g id = "thumbnails"></g>
         </svg>
       </div>
   </div>
 
-<script type="application/javascript" src="dimensionsSearch.js"></script>
+<script type="application/javascript" src="thumbnailSearchTime.js"></script>
 </body>
 
 </html>

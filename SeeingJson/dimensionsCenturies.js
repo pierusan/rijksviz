@@ -2,17 +2,16 @@
 var kairosDataPath = "Data/allKairos.json";
 var kairosData = null;
 
-var aggregateData = [];
-
 var nbWithoutDim = 0;
-
-var cnt = -1;
 
 var xAxisHeight = 30;
 var yAxisWidth = 30;
 
-var initSvgWidth = d3.select("#facesSVG").node().getBoundingClientRect().width;
-var initSvgHeight = d3.select("#facesSVG").node().getBoundingClientRect().height;
+var initSvgWidth = 200;
+var initSvgHeight = 200;
+
+var dimTotH = 400;
+var dimTotW = 400;
 
 d3.json(kairosDataPath, function(json){
   kairosData = json;
@@ -20,7 +19,22 @@ d3.json(kairosDataPath, function(json){
   console.log(kairosData);
 });
 
-var progressBar = document.getElementsByClassName("myBar")[0];
+var centuriesData = [];
+var cnt = [];
+var centuries = [13,14,15,16,17,18,19,20];
+
+searchCenturies();
+
+function searchCenturies(){
+    for (var i = 0; i < centuries.length; i++){
+      d3.select("#piecesDiv")
+        .append("svg")
+        .attr("id", "dimSVG"+i);
+      centuriesData.push([]);
+      cnt.push(-1);
+      advSearch("", "painting", "", "True", ""+centuries[i], "", "True", "", "", "", centuriesData[i], i);
+    }
+}
 
 function getDimByType(dimArray,dimType) {
   return dimArray.filter(
@@ -28,14 +42,16 @@ function getDimByType(dimArray,dimType) {
   );
 }
 
-function DisplayPaintingsDimensions(){
-  console.log("Aggregate = "+aggregateData.length+" & Count = "+ cnt);
-  if (cnt > 0){
-    var ratio = aggregateData.length / cnt * 100;
-    progressBar.style.width = ratio + '%';
+function DisplayPaintingsDimensions(aggregateData, index, progressBar){
+  //console.log("Aggregate = "+aggregateData.length+" & Count = "+ cnt[index]);
+  if (cnt[index] > 0){
+    var ratio = aggregateData.length / cnt[index] * 100;
+    progressBar.style("width",ratio + '%');
   }
-  while(aggregateData.length != cnt){
-    setTimeout(DisplayPaintingsDimensions,500); // run donothing after 0.5 seconds
+  while(aggregateData.length != cnt[index]){
+    setTimeout(function() {
+                  DisplayPaintingsDimensions(aggregateData, index, progressBar);
+              },500); // run donothing after 0.5 seconds
     return;
   }
   console.log("Aggregating Data:");
@@ -93,7 +109,19 @@ function DisplayPaintingsDimensions(){
                    );
   });
 
-  var svgBounds = d3.select("#facesSVG").node().getBoundingClientRect();
+
+  var thisSvg = d3.select("#dimSVG"+index)
+                  .attr("width", initSvgWidth)
+                  .attr("height", initSvgHeight)
+                  .attr("x", 0)
+                  .attr("y", 0);
+
+  var thisXaxis = thisSvg.append("g");
+  var thisYaxis = thisSvg.append("g");
+  var thisDimPlaceholder = thisSvg.append("g");
+
+  var svgW = initSvgWidth;
+  var svgH = initSvgHeight;
 
   var maxHeight = d3.max(aggregateData, function(d){
     if (d.artObject.dimensions != null){
@@ -118,47 +146,40 @@ function DisplayPaintingsDimensions(){
   console.log("Max Height: "+maxHeight);
   console.log("Max Width: "+maxWidth);
 
-  if (maxHeight > maxWidth){
-    var newWidth = ((svgBounds.height -  xAxisHeight) * maxWidth / maxHeight) + yAxisWidth;
-    d3.select("#facesSVG")
-      .attr("width",newWidth);
+  if (dimTotH > dimTotW){
+    svgW = ((svgH -  xAxisHeight) * dimTotW / dimTotH) + yAxisWidth;
+    thisSvg.attr("width",svgW);
   }
   else{
-    var newHeight = ((svgBounds.width - yAxisWidth) * maxHeight / maxWidth) + xAxisHeight;
-    d3.select("#facesSVG")
-      .attr("height",newHeight);
+    var svgH = ((svgW - yAxisWidth) * dimTotH / dimTotW) + xAxisHeight;
+    thisSvg.attr("height",svgH);
   }
 
-  svgBounds = d3.select("#facesSVG").node().getBoundingClientRect();
-
   var xScale = d3.scaleLinear()
-          .domain([0, maxWidth])
-          .range([yAxisWidth, svgBounds.width]);
+          .domain([0, dimTotW])
+          .range([yAxisWidth, svgW]);
 
   var yScale =d3.scaleLinear()
-            .domain([maxHeight, 0])
-            .range([0, svgBounds.height - xAxisHeight]);
+            .domain([dimTotH, 0])
+            .range([0, svgH - xAxisHeight]);
 
   var xAxis = d3.axisBottom()
                 .scale(xScale)
-                .ticks(20);
+                .ticks(10);
 
   var yAxis = d3.axisLeft()
                 .scale(yScale)
-                .ticks(20);
+                .ticks(10);
 
-  posX = svgBounds.height - xAxisHeight;
+  posX = svgH - xAxisHeight;
   posY = yAxisWidth;
 
-  var axiX = d3.select("#xAxis")
-                .attr("transform", "translate(" + 0 + "," + posX+ ")")
+  var axiX = thisXaxis.attr("transform", "translate(" + 0 + "," + posX+ ")")
                 .call(xAxis);
-  var axiY = d3.select("#yAxis")
-                .attr("transform", "translate(" + posY + "," + 0+ ")")
+  var axiY = thisYaxis.attr("transform", "translate(" + posY + "," + 0+ ")")
                 .call(yAxis);
 
-  var groupes = d3.select("#paintings")
-      .selectAll("g")
+  var groupes = thisDimPlaceholder.selectAll("g")
       .data(aggregateData)
       .enter()
       .append("g");
@@ -222,7 +243,13 @@ function DisplayPaintingsDimensions(){
 
 
    var rects = groupes.selectAll("rect")
-                       .data(function(d){
+                       .data(function(d, i){
+                         if (i < 250){
+                           d.opToUse = 0.004;
+                         }
+                         else{
+                           d.opToUse = 0;
+                         }
                          var dat = [];
                          dat.push(d);
                          return dat;
@@ -270,7 +297,13 @@ function DisplayPaintingsDimensions(){
                            return yScale(0);
                          })
                          .style("opacity", function(d){
-                           return 1 / cnt;
+                           if (cnt[index] < 250){
+                              return 1 / cnt[index];
+                           }
+                           else{
+                             console.log(d.opToUse);
+                             return d.opToUse;
+                           };
                          })
                          .style("fill", "black");
 
@@ -291,30 +324,19 @@ function DisplayPaintingsDimensions(){
                                            .select("image")
                                            .style("opacity", 0);
                                         });
+
+    console.log(cnt[index]);
+    console.log(1 / cnt[index]);
 }
 
-function advSearch(){
-  progressBar.style.width = 0 + '%';
+function advSearch(queryID, typeID, invMakerID, imgOnlyID, datingPeriodID, titleID, onDisplayID, sortID, acqID, colorID, aggregateData, index){
+  var progressBar = d3.select("#myProgress")
+    .append("div")
+    .classed("myBar", "true")
+    .attr("id", "myBar"+index)
+    .style("width", 0 + '%');
 
-  d3.select("#paintings").selectAll("*").remove();
-  d3.select("#xAxis").selectAll("*").remove();
-  d3.select("#yAxis").selectAll("*").remove();
-  d3.select("#facesSVG")
-    .attr("width", initSvgWidth)
-    .attr("height", initSvgHeight);
   aggregateData = [];
-
-  // get value of search input boxes
-  var queryID = document.getElementById("queryID").value;
-  var typeID = document.getElementById("typeID").value;
-  var invMakerID = document.getElementById("invMakerID").value;
-  var imgOnlyID = document.getElementById("imgOnlyID").value;
-  var datingPeriodID = document.getElementById("datingPeriodID").value;
-  var titleID = document.getElementById("titleID").value;
-  var onDisplayID = document.getElementById("onDisplayID").value;
-  var sortID = document.getElementById("sortID").value;
-  var acqID = document.getElementById("acqID").value;
-  var colorID = document.getElementById("colorID").value;
 
   // JSON
   var piecesData;
@@ -359,36 +381,36 @@ function advSearch(){
     piecesUrl += "&f.normalized32Colors.hex=%23"+colorID;
   }
 
-  d3.select("#subTitle")
-    .html("URL: "+piecesUrl);
-
-
   d3.json(piecesUrl, function (json) {
     console.log("Loading Pieces JSON");
     console.log(json);
     piecesData = json;
 
+    /**
     d3.select("#subTitle")
       .html("URL: "+piecesUrl);
+   **/
 
-    cnt = piecesData.count;
+    cnt[index] = piecesData.count;
 
+    /**
     d3.select("#count")
       .html("Count: "+piecesData.count);
+    **/
 
     //Sort through the number of pages
     for ( j = 1; j < Math.floor( (parseInt(piecesData.count) - 1) / nbInOnePage) +2; j++){
       var pageUrl = piecesUrl+"&p="+j;
-      SearchPage(pageUrl, j, nbInOnePage, piecesDiv);
+      SearchPage(pageUrl, j, nbInOnePage, piecesDiv, aggregateData);
     }
 
   });
 
-  DisplayPaintingsDimensions();
+  DisplayPaintingsDimensions(aggregateData, index, progressBar);
 
 }
 
-function SearchPage(pageUrl, pageNb, nbInOnePage, piecesDiv){
+function SearchPage(pageUrl, pageNb, nbInOnePage, piecesDiv, aggregateData){
 
   d3.json(pageUrl, function (json2) {
     console.log("Going through page "+pageNb);
@@ -398,12 +420,12 @@ function SearchPage(pageUrl, pageNb, nbInOnePage, piecesDiv){
       // creating unique identfier for each painting (image + info)
       var realNb = nbInOnePage * (pageNb-1) + i;
 
-      SearchPainting(pageData.artObjects[i].objectNumber, realNb);
+      SearchPainting(pageData.artObjects[i].objectNumber, realNb, aggregateData);
     }
   });
 }
 
-function SearchPainting(objNumber, nb){
+function SearchPainting(objNumber, nb, aggregateData){
   var url = "https://www.rijksmuseum.nl/api/en/collection/"+objNumber+"?key=rgAMNabw&format=json";
 
   d3.json(url, function (json) {

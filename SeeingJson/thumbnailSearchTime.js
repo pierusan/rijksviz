@@ -16,7 +16,7 @@ d3.json(kairosDataPath, function(json){
   console.log(kairosData);
 });
 
-var progressBar = document.getElementById("myBar");
+var progressBar = document.getElementsByClassName("myBar")[0];
 
 function DisplayAggregateDataImagesDate(){
   console.log("Aggregate = "+aggregateData.length+" & Count = "+ cnt);
@@ -30,6 +30,10 @@ function DisplayAggregateDataImagesDate(){
   }
   console.log("Aggregating Data:");
   console.log(aggregateData);
+
+  aggregateData.sort(function(a,b){
+    return parseInt(a.artObject.dating.yearLate) - parseInt(b.artObject.dating.yearLate);
+  });
 
   var svgBounds = d3.select("#facesSVG").node().getBoundingClientRect();
 
