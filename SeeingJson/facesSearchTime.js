@@ -1,5 +1,5 @@
 //Local folder where the Face Detection Json are stored
-var kairosDataPath = "Data/allKairos.json";
+var kairosDataPath = "Data/allKairos2.json";
 var kairosData = null;
 
 var aggregateData = [];
@@ -10,10 +10,11 @@ var cnt = -1;
 
 var xAxisHeight = 30;
 
-var svgW = 1000;
-var svgH = 1000;
+var svgW = 1500;
+var svgH = 650;
 
-var faceW = 50;
+var faceW = 20;
+var ratioAroundHead = 1.5;
 
 d3.json(kairosDataPath, function(json){
   kairosData = json;
@@ -111,40 +112,60 @@ function DisplayAggregateDataImagesDate(){
       .enter()
       .append("svg")
         .attr("width", function(d){
-          faceW;
+          d.savedWidth = faceW * ratioAroundHead;
+          var par = d3.select(this.parentNode).datum();
+          if (par.kairos[0].images == null){
+            return 0;
+          }
+          d.targetWidth = par.kairos[0].images[0].width;
+          return d.savedWidth;
         })
         .attr("height", function(d){
-          return d.height / d.width * faceW;
+          d.savedHeight = d.height / d.width * faceW * ratioAroundHead;
+          var par = d3.select(this.parentNode).datum();
+          if (par.kairos[0].images == null){
+            return 0;
+          }
+          d.targetHeight = par.kairos[0].images[0].height;
+          return d.savedHeight;
         })
         .attr("x", function(d){
-          return Math.random() * svgW;
+          d.savedX = Math.random() * (svgW - faceW * ratioAroundHead);
+          return d.savedX;
         })
         .attr("y", function(d){
-          return Math.random() * svgH;
+          d.savedY = Math.random() * (svgH - faceW * ratioAroundHead * 1.5 );
+          return d.savedY;
         });
 
   imagesSVG.append("svg:image")
            .attr("x", function(d){
-             var par = d3.select(this.parentNode.parentNode).datum();
-             if (par.kairos[0].images == null){
-               return 0;
-             }
-             return par.kairos[0].images[0].width;
+             var offsetLeft = d.topLeftX * faceW / d.width -  faceW * (ratioAroundHead - 1) / 2;
+             d3.select(this.parentNode).datum().targetX =  d3.select(this.parentNode).datum().savedX - offsetLeft;
+             d.savedChildX = -1 * offsetLeft;
+             d.targetChildX = 0;
+             return d.savedChildX;
            })
-           .attr("y", 0)
+           .attr("y", function(d){
+             var offsetTop = d.topLeftY * faceW  / d.width - d.height / d.width * faceW * (ratioAroundHead - 1) / 2;
+             d3.select(this.parentNode).datum().targetY =  d3.select(this.parentNode).datum().savedY - offsetTop;
+             d.savedChildY = -1 * offsetTop
+             d.targetChildY = 0;
+             return d.savedChildY;
+           })
            .attr("width", function(d){
              var par = d3.select(this.parentNode.parentNode).datum();
              if (par.kairos[0].images == null){
                return 0;
              }
-             return par.kairos[0].images[0].width;
+             return par.kairos[0].images[0].width * faceW  / d.width;
            })
            .attr("height", function(d){
              var par = d3.select(this.parentNode.parentNode).datum();
              if (par.kairos[0].images == null){
                return 0;
              }
-             return par.kairos[0].images[0].height;
+             return par.kairos[0].images[0].height * faceW / d.width;
            })
            .attr("xlink:href", function(d){
               var par = d3.select(this.parentNode.parentNode).datum();
@@ -154,6 +175,33 @@ function DisplayAggregateDataImagesDate(){
               }
               return par.artObject.webImage.url;
             });
+
+    imagesSVG.on("mouseover", function (){
+                                        d3.select(this)
+                                        .transition()
+                                        .duration(500)
+                                        .ease(d3.easeExp)
+                                          .attr("width", function(d){return d.targetWidth;})
+                                          .attr("height", function(d){return d.targetHeight;})
+                                          .attr("x", function(d){return d.targetX;})
+                                          .attr("y", function(d){return d.targetY;})
+                                            .select("image")
+                                            .attr("x", function(d){return d.targetChildX;})
+                                            .attr("y", function(d){return d.targetChildY;});
+                                      })
+             .on("mouseout", function (){
+                                         d3.select(this)
+                                           .transition()
+                                           .duration(500)
+                                           .ease(d3.easeExp)
+                                           .attr("width", function(d){return d.savedWidth;})
+                                           .attr("height", function(d){return d.savedHeight;})
+                                           .attr("x", function(d){return d.savedX;})
+                                           .attr("y", function(d){return d.savedY;})
+                                             .select("image")
+                                             .attr("x", function(d){return d.savedChildX;})
+                                             .attr("y", function(d){return d.savedChildY;});
+                                       });
 
 }
 

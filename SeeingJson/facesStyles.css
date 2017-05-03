@@ -1,0 +1,39 @@
+
+html, body { height: 100%; width: 100%; margin: 0; }
+
+.facesBody {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+.navigationBar {
+  height: 10%;
+  width: 100%;
+  background-color: green;
+}
+
+.facesTitle {
+  height: 10%;
+  width: 100%;
+  background-color: blue;
+}
+
+.facesContent {
+  height: 80%;
+  width: 100%;
+}
+
+.facesSideBar {
+  background: pink;
+  float: left;
+  width:33%;
+  height: 100%;
+  overflow-y:scroll;
+}
+
+.facesDescription {
+  background: yellow;
+  width:auto;
+  height: 100%;
+}

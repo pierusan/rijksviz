@@ -12,14 +12,16 @@
   <input type="file" id="files" name="files[]" multiple />
   <output id="list"></output>
   <br />
+  <button onclick="downloadKairos()">Download Json</button>
   <button onclick="getKairos()">Open Json</button>
 
   <script>
-    var nbFiles = 30000000;
+    var nbFiles = 0;
     var aggregateData = {};
     aggregateData["paintings"] = [];
 
     function handleFileSelect(evt) {
+      console.log("in the handle!");
       var files = evt.target.files; // FileList object
       nbFiles = files.length;
 
@@ -32,7 +34,7 @@
     }
 
     function aggData(ptIngId){
-      d3.json("KairosJson/"+ptIngId, function (json) {
+      d3.json("KairosJson2/"+ptIngId, function (json) {
         json.paintingId = ptIngId.split(".json")[0];
         aggregateData.paintings.push(json);
       });
@@ -44,8 +46,8 @@
         setTimeout(downloadAggJson,1000); // run donothing after 0.5 seconds
         return;
       }
-      console.log(aggregateData);;
-      downloadText(JSON.stringify(aggregateData), "allKairos.json");
+      console.log(aggregateData);
+      //downloadText(JSON.stringify(aggregateData), "allKairos2.json");
     }
 
     function downloadText(text, filename){
@@ -55,11 +57,32 @@
       a.click()
     }
 
+    var saveData = (function () {
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    return function (data, fileName) {
+        var json = JSON.stringify(data),
+            blob = new Blob([json], {type: "octet/stream"}),
+            url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };
+}());
+
     function getKairos(){
-      d3.json("Data/allKairos.json", function(json){
+      d3.json("Data/allKairos2.json", function(json){
         console.log(json);
         console.log(getFacesById(json,"bk-2011-40"));
       });
+    }
+
+    function downloadKairos(){
+      console.log("Into downLoad!");
+      //downloadText(JSON.stringify(aggregateData), "allKairos2.json");
+      saveData(aggregateData, "allKairos2.json");
     }
 
     function getFacesById(arr, code) {

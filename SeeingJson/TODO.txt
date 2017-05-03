@@ -37,3 +37,29 @@ Kate:
 John: Bar graphs
 - # for physical Medium
 - # for Type of Acquisition (gift, loan, purchase)
+
+<canvas width="178" height="178" id="http://lh6.ggpht.com/-5fR4R0juxENWxC6uYmt0X-woXGKfHnioqaMah1fRxML49JO-zd2CwZrCKuvgY4cUQphLkdpJ9GtZMNGjTfxrnSGfbxI=s0"></canvas>
+<canvas width="178" height="178" id="http://lh4.ggpht.com/ZAcpUOHLzu_BdJhpoRC9PTfG_vUWFGAfjE2LtW0wSZ0AELjzgPk6UeapDg-qqMG1KvCpPJ4ZhsEIpTjrWWj8-aUZmOs=s0"></canvas>
+<canvas width="178" height="178" id="http://lh3.ggpht.com/kvkZ29B0QKTj1tFqRJGCXLyhAfAn-Ux3n9EHLfVXpnNulR7ax7SFzWlr1_SZaqh5B7qN1P0fqwS_mrQLgry1zLB_UkE=s0"></canvas>
+
+Find the portraits by saying:
+- only one face AND size bigger than some percentage of the whole
+- Compare the colors of paintings between different centuries
+
+- Also compare the colors of the paintings without faces between centuries
+
+- Visualizes the paintings with a lot of faces
+- Visualize them per century (more before than now)
+- Average number of people per centuries
+
+Gather all Netherlands portraits --> High value and portrait style!
+Page: dimension of Masterpieces
+
+Visualize:
+- the number of paintings with faces recognized per centuries (remove the copyrights!)
+- The number of faces in them
+- Visualize the ones without faces per century: Houses and Landscapes VS Scenes with too many people!
+
+List:
+Keywords and their occurences
+Cities and their occurences

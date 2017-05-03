@@ -2,7 +2,7 @@
 var kairos = new Kairos("07085ed9", "898a579671ad835e6888fb3c4805b435");
 
 //Local folder where the Face Detection Json are stored
-var folderPath = "KairosJson/";
+var folderPath = "KairosJson2/";
 
 //Associate fileName with painting IDs
 var fileToIdDict = {};
@@ -22,6 +22,11 @@ var nbWithoutImages = 0;
 var columnWidth = 12;
 var maxWidthHeight = 1068;
 
+var countK = 0;
+var countD = 0;
+var countE = 0;
+var countG = 0;
+
 //Called to create Json files for the paintings without faces
 function fillEmptyFaces(){
   //console.log("Fill Empty Faces!");
@@ -35,16 +40,24 @@ function fillEmptyFaces(){
 
     if (http.status == 404){
       //console.log(fileToIdDict[key]);
+      countE++;
       downloadText( errorJson, fileToIdDict[key]+".json");
     }
   }
 
   for (i = 0; i < filesWithCopyright.length; i++){
+    countE++;
     downloadText( errorJson, filesWithCopyright[i]+".json");
   }
+
+  console.log("Empty: "+countE);
 }
 
 function advSearch(){
+  countK = 0;
+  countD = 0;
+  countE = 0;
+  countG = 0;
   fileToIdDict = {};
   filesWithCopyright = [];
 
@@ -147,6 +160,8 @@ function advSearch(){
 
     d3.select("#count")
       .html("Count: "+piecesData.count);
+
+    countG = piecesData.count;
 
     var piecesDiv = d3.select("#piecesDiv");
 
@@ -271,7 +286,8 @@ function DisplayPaintingThumbnail(objNumber, nb){
     }
     else{
       //TODO: Handle the display here
-      console.log("display");
+      countD++;
+      console.log("displayed: "+countD+"  out of: "+countG);
       displayKairos(folderPath+""+ptingID+".json", imageCol, paintingImURL, w, h);
       //console.log("done displaying");
     }
@@ -288,7 +304,8 @@ function displayKairos(jsonURL, imageCol, paintingImageURL, w, h){
 
     var canv = imageCol.append("canvas")
                            .attr("width", maxWidthHeight)
-                           .attr("height", maxWidthHeight);
+                           .attr("height", maxWidthHeight)
+                           .attr("id", paintingImageURL);
 
     var context = canv.node().getContext('2d');
     var imageObj = new Image();
@@ -410,10 +427,15 @@ function downloadText(text, filename){
   a.click()
 }
 
+
+
 //Function called when the Kairos API has found an answer
 function myKairosCallback(response){
-  console.log("Kairos Data: ");
-  console.log(response);
+  //console.log("Kairos Data: ");
+  //console.log(response);
+  countK++;
+  var prout = countG - countD;
+  console.log(countK+"    to     "+prout);
 
   //Download the resulting Json
   if (JSON.parse(response.responseText).images !=null){

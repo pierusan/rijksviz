@@ -1,5 +1,5 @@
 //Local folder where the Face Detection Json are stored
-var kairosDataPath = "Data/allKairos.json";
+var kairosDataPath = "Data/allKairos2.json";
 var kairosData = null;
 
 var nbWithoutDim = 0;
@@ -263,7 +263,7 @@ function DisplayPaintingsDimensions(aggregateData, index, progressBar){
                           return yScale(0);
                         })
                         .style("opacity", function(d){
-                          return 0;
+                          return 0.004;
                         })
                         .attr("xlink:href", function(d){
                           if (d.artObject.webImage == null){
@@ -353,7 +353,7 @@ function DisplayPaintingsDimensions(aggregateData, index, progressBar){
                                            });
                                          d3.select(this)
                                            .select("image")
-                                           .style("opacity", 0);
+                                           .style("opacity", 0.004);
                                         });
 
     console.log(cnt[index]);
