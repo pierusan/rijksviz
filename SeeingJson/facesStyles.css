@@ -1,5 +1,82 @@
 
-html, body { height: 100%; width: 100%; margin: 0; }
+
+/* kates */
+
+/* ALL */
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    background-color: black;
+    color: white;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+}
+.hidden {
+    display: none;
+}
+header {
+    margin-left: 15px;
+    margin-top: -10px;
+}
+/*big header font at top*/
+h1 {
+    font-size: 34px;
+    font-weight: 100;
+}
+/* body title */
+h2{}
+/*subsection titles*/
+h3{
+  font-size: 20px;
+  font-weight: 500;
+  margin-left: 20px;
+}
+#aboutMyMaker{
+  font-size: 20px;
+  font-weight: 500;
+  margin-left: -20px;
+  margin-top: 35px;
+}
+/*summary font at top*/
+h5 {
+    font-size: 16px;
+    margin-top: -20px;
+    font-weight: 100;
+}
+span {
+
+}
+/* TEXT */
+.descriptions {
+    margin-left: 15px;
+}
+.artist.date {
+    font-weight: 800;
+}
+.title {
+    font-weight: 100;
+    font-size: 25px;
+}
+.labels{
+    font-size: 11px;
+}
+
+::-webkit-scrollbar
+{
+  width: 12px;  /* for vertical scrollbars */
+  height: 12px; /* for horizontal scrollbars */
+}
+::-webkit-scrollbar-track
+{
+  background: rgba(0, 0, 0, 0.1);
+}
+::-webkit-scrollbar-thumb
+{
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* pierres */
 
 .facesBody {
   height: 100%;
@@ -7,33 +84,130 @@ html, body { height: 100%; width: 100%; margin: 0; }
   margin: 0;
 }
 
-.navigationBar {
-  height: 10%;
+#profile {
+  height: 40%;
   width: 100%;
-  background-color: green;
+  position: relative;
 }
 
-.facesTitle {
-  height: 10%;
+#profileInfo {
   width: 100%;
-  background-color: blue;
+  height: 40%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
-.facesContent {
+#profilePictureOverlay {
+  width: 100%;
   height: 80%;
+  position: absolute;
+  z-index: 10;
+}
+#profileInfo{
+  height: 200px;
+  margin-left: 40px;
+  line-height: 40px;
+  font-size: 22px;
+  font-weight: 100;
+}
+
+#profilePicSvg {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.clip-circle {
+  clip-path: circle(150px at center);
+}
+
+.tabs {
+  height: 50%;
   width: 100%;
 }
 
-.facesSideBar {
-  background: pink;
+.tabDiv {
   float: left;
-  width:33%;
+  width: 33%;
   height: 100%;
+}
+
+#friends {
+}
+#maker {
+}
+#home {
+}
+
+.tabTitle {
+  width: 100%;
+  height: 10px;
+}
+
+.tabContent {
+  width: 100%;
+  height: 90%;
+  margin-top: 20px;
+  font-size: 12px;
+  font-weight: 800;
+  padding-left: 40px;
+}
+.tabContent span {
+  font-size: 18px;
+  font-weight: 100;
+  margin-left: 10px;
+  line-height: 30px;
+}
+#paintingTitle{
+  font-size: 18px;
+  font-weight: 100;
+}
+#distantRelationsSvgs{
+  margin-right: 50px;
+  margin-top: 0px;
+}
+
+#makerTitle {
+}
+#makerContent {
+}
+#friendsTitle {
+}
+#friendsContent {
   overflow-y:scroll;
 }
+#homeTitle {
+}
+#homeContent {
+}
 
-.facesDescription {
-  background: yellow;
-  width:auto;
+#closeFriendsDiv {
+  width: 100%;
+  height: 300;
+}
+
+#paintingPic {
   height: 100%;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+
+#paintingTitle {
+  width: 100%;
+  height: 30%;
+}
+
+.brightness {
+    background-color: white;
+    display: inline-block;
+
+}
+.brightness image:hover {
+    opacity: .5;
 }

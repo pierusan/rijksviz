@@ -14,11 +14,13 @@
     <div id="myProgress">
       <div class="myBar"></div>
     </div>
+    <button onclick="downloadSvg()">Download SVG</button>
 
     <br />
 
-    <svg id="icebergSVG" width="1500", height="800">
-      <g id="xAxis"></g>
+    <svg id="icebergSVG" width="1300" height="800">
+      <rect id="icebergBack" width="1300" height="3800" x="0" y="0"></rect>
+      <g id="xAxis" class="axisWhite"></g>
       <g id = "icebergTop"></g>
       <g id = "icebergBottom"></g>
     </svg>

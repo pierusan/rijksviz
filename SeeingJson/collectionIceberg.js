@@ -21,8 +21,8 @@ d3.json(collectionDataPath, function(json){
 
 
 // URL for the API Search
-//var searchUrl = "https://www.rijksmuseum.nl/api/en/collection?key=rgAMNabw&format=json&ps=100&type=painting&imgonly=True&ondisplay=False";
-var searchUrl = "https://www.rijksmuseum.nl/api/en/collection?key=rgAMNabw&format=json&ps=100&type=painting&imgonly=True&ondisplay=False&title=Portrait&credits=Loan";
+var searchUrl = "https://www.rijksmuseum.nl/api/en/collection?key=rgAMNabw&format=json&ps=100&type=painting&imgonly=True&ondisplay=False";
+//var searchUrl = "https://www.rijksmuseum.nl/api/en/collection?key=rgAMNabw&format=json&ps=100&type=painting&imgonly=True&ondisplay=False&title=Portrait&credits=Loan";
 // Number of elements in the collection
 var cnt = 4299;
 //Progress Bar html element
@@ -34,7 +34,7 @@ var collectionData = [];
 //Parameters for the thumbnails
 var maxWidthHeight = 300;
 
-var xAxisHeight = 10;
+var xAxisHeight = 30;
 var circleAxisRadius = 1;
 var offsetLeft = 60;
 var offsetRight = 30;
@@ -48,6 +48,7 @@ var offsetInColumn = 1.03;
 DisplayIceberg();
 
 function DisplayIceberg(){
+  d3.select("#icebergBack").style("color", "black");
   if (collectionData.collection == null){
     setTimeout(DisplayIceberg,500);
     return;
@@ -80,6 +81,11 @@ function DisplayIceberg(){
   var minHalfDecade = d3.min(collectionData.collection, function(d){return halfD(d); });
   var maxHalfDecade = d3.max(collectionData.collection, function(d){return halfD(d); });
 
+  console.log(minHalfDecade);
+  console.log(maxHalfDecade);
+
+  minHalfDecade = 1584;
+  maxHalfDecade = 1960;
 
   var dom = [];
   for (var i = minHalfDecade; i <= maxHalfDecade; i+=2){
@@ -131,15 +137,18 @@ function DisplayIceberg(){
           d3.select(this).select("line").remove();
         }
         else {
+          d3.select(this).select("text").attr('fill', 'white');
           var cx = d3.select(this).select("line").attr("x1");
           var cy = parseInt(d3.select(this).select("line").attr("y2")) / 2;
           d3.select(this).select("line").remove();
+          /**
           d3.select(this)
               .append("circle")
               .attr("cx", cx)
               .attr("cy", cy)
               .attr("r", circleAxisRadius)
               .style("fill", "black");
+          **/
         }
       });
     s.selectAll(".tick text").attr("dy", +10);
@@ -160,10 +169,12 @@ function DisplayIceberg(){
     heightOfColumnBottom[xScale.domain()[i]] = 0;
   }
 
+  console.log(heightOfColumnTop);
+
   var imagesTop = d3.select("#icebergTop")
       .selectAll("image")
       .data(collectionData.collection.filter(function(d){
-        return d.onDisplay == "True";
+        return d.onDisplay == "True" && parseInt(d.artObject.dating.yearLate) > minHalfDecade && parseInt(d.artObject.dating.yearLate) < maxHalfDecade;
       }))
       .enter()
       .append("svg:image")
@@ -173,7 +184,9 @@ function DisplayIceberg(){
         .attr("x", function(d){return xScale(halfD(d));})
         .attr("y", function(d){
           halfDecade = halfD(d);
-          test = heightOfColumnTop[halfDecade]
+          //console.log(halfDecade);
+          var test = heightOfColumnTop[halfDecade];
+          //console.log(test);
           if (d.artObject.webImage != null){
             heightOfColumnTop[halfDecade] = heightOfColumnTop[halfDecade] + (offsetInColumn * d.artObject.webImage.height * xScale.bandwidth() / d.artObject.webImage.width);
           }
@@ -181,7 +194,8 @@ function DisplayIceberg(){
         })
         .attr("xlink:href", function(d){
           if (d.artObject.webImage == null){
-            return "Data/Copyright.PNG";
+            return null;
+            //return "Data/Copyright.PNG";
           }
           return d.artObject.webImage.url;
         });
@@ -189,7 +203,7 @@ function DisplayIceberg(){
   var imagesBottom = d3.select("#icebergBottom")
     .selectAll("image")
     .data(collectionData.collection.filter(function(d){
-      return d.onDisplay == "False";
+      return d.onDisplay == "False" && d.artObject.dating.yearLate > minHalfDecade && d.artObject.dating.yearLate < maxHalfDecade;
     }))
     .enter()
     .append("svg:image")
@@ -207,7 +221,8 @@ function DisplayIceberg(){
       })
       .attr("xlink:href", function(d){
         if (d.artObject.webImage == null){
-          return "Data/Copyright.PNG";
+          return null;
+          //return "Data/Copyright.PNG";
         }
         return d.artObject.webImage.url;
       });
@@ -227,6 +242,7 @@ function DisplayIceberg(){
       }
     }
 
+var tmp = columnMaxTop + 30;
 
   d3.select("#icebergTop")
     .attr("transform", "translate(" + 0 + "," + columnMaxTop + ") scale(1,-1)");
@@ -240,8 +256,8 @@ function DisplayIceberg(){
     .attr("transform", "translate(" + 0 + "," + offset + ")");
 
   //console.log(columnMaxTop);
-  d3.select("#facesSVG")
-    .attr("height", columnMaxTop + xAxisHeight);
+  d3.select("#icebergSVG")
+    .attr("height", columnMaxTop + xAxisHeight + columnMaxBottom+30);
 }
 
 function advSearch(piecesUrl){
@@ -303,6 +319,7 @@ function getOnDisplayById(ptingId) {
   );
 }
 
+
 function halfD(d){
   lastDigit = 0;
   if (parseInt(d.artObject.dating.yearLate)%10 >= 2 && (d.artObject.dating.yearLate)%10 < 4){
@@ -335,3 +352,15 @@ function halfD(d){
   return parseInt(d.artObject.dating.yearLate) - parseInt(d.artObject.dating.yearLate)%10 + lastDigit;
 }
 **/
+
+function downloadSvg(){
+  var svgData = $("#icebergSVG")[0].outerHTML;
+  var svgBlob = new Blob([svgData], {type:"image/svg+xml;charset=utf-8"});
+  var svgUrl = URL.createObjectURL(svgBlob);
+  var downloadLink = document.createElement("a");
+  downloadLink.href = svgUrl;
+  downloadLink.download = "newesttree.svg";
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+}

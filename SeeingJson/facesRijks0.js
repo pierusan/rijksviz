@@ -80,12 +80,11 @@ function StartFacebook(){
   console.log("Faces Data:");
   console.log(facesData);
 
-  updateFacebookPage(160);
-  //updateFacebookPage(2);
+  //updateFacebookPage(160);
+  updateFacebookPage(2);
 }
 
 function updateFacebookPage(faceId){
-  ResetPage();
   var tempFacesArray = facesData.slice(0);
 
   var indexesInPainting = getPaintingById(getFaceById(faceId)[0].paintingId)[0].facesIds.slice(0);
@@ -122,87 +121,15 @@ function updateFacebookPage(faceId){
   }
   console.log(randomFacesArray);
 
-  updateProfilePicture(mainFace, mainPainting);
+  //updateProfilePicture(mainFace, mainPainting);
   updateFriends(otherFaces, mainPainting, randomFacesArray);
-  updateProfileContent(mainPainting, onDisplay, mainFace);
+  /**
+  updateProfileContent(mainPainting, onDisplay);
   updateMaker(mainPainting);
   updateHome(mainPainting);
+  **/
 }
 
-function ResetPage(){
-  d3.select("#closeFriendsSvgs").selectAll("*").remove();
-  d3.select("#distantRelationsSvgs").selectAll("*").remove();
-  d3.select("#profilePicSvg").selectAll("*").remove();
-}
-
-function updateProfilePicture(mainFace, mainPainting){
-  var faceW = $("#profilePicSvg").width() / ratioAroundHead;
-  var imagesSVG = d3.select("#profilePicSvg")
-                    .attr("x", "0")
-                    .attr("y", "0")
-                    .classed("clip-circle", "true");
-
-  fillSvgWithFace(imagesSVG, faceW, mainFace, mainPainting.webImage, false);
-}
-
-function updateProfileContent(mainPainting, onDisplay, mainFace){
-    console.log(mainFace);
-    var eth = null;
-    var maxEth = Math.max(mainFace.attributes.asian, mainFace.attributes.black, mainFace.attributes.hispanic, mainFace.attributes.other, mainFace.attributes.white);
-    if (maxEth == mainFace.attributes.asian){
-      eth = "Asian";
-    }
-    else if (maxEth == mainFace.attributes.black){
-      eth = "Black";
-    }
-    else if (maxEth == mainFace.attributes.hispanic){
-      eth = "Hispanic";
-    }
-    else if (maxEth == mainFace.attributes.other){
-      eth = "Other";
-    }
-    else{
-      eth = "White";
-    }
-    var gen = null;
-    if (mainFace.attributes.gender.type = "F"){
-      gen = "Female";
-    }
-    else {
-      gen = "Male";
-    }
-    var h = mainFace.height / mainPainting.webImage.height * mainPainting.dimensions[0].value;
-    var w = mainFace.width / mainPainting.webImage.width * mainPainting.dimensions[1].value;
-
-
-    d3.select("#birthday").html(mainPainting.dating.year);
-    d3.select("#skin").html(mainPainting.physicalMedium);
-    d3.select("#ethnicity").html(eth);
-    d3.select("#gender").html(gen);
-    d3.select("#onDisplay").html(onDisplay);
-    d3.select("#faceHeight").html(h.toFixed(1)+" cm");
-    d3.select("#faceWidth").html(w.toFixed(1)+" cm");
-}
-
-function updateMaker(mainPainting){
-    d3.select("#makerName").html(mainPainting.principalOrFirstMaker);
-    d3.select("#makerBirthDate").html(mainPainting.principalMakers[0].dateOfBirth);
-    d3.select("#makerDeathDate").html(mainPainting.principalMakers[0].dateOfDeath);
-    d3.select("#makerBirthPlace").html(mainPainting.principalMakers[0].placeOfBirth);
-    d3.select("#makerDeathPlace").html(mainPainting.principalMakers[0].placeOfDeath);
-    d3.select("#makerNationality").html(mainPainting.principalMakers[0].nationality);
-}
-
-function updateHome(mainPainting){
-  $("#paintingImg").attr("src", mainPainting.webImage.url);
-  console.log(mainPainting);
-  if (mainPainting.label.title != null){
-    d3.select("#paintingTitle").html(mainPainting.label.title);
-  }
-  else{
-      d3.select("#paintingTitle").html(mainPainting.title);
-  }
-}
 
 function updateFriends(otherFaces, mainPainting, randomFacesArray){
 
@@ -216,34 +143,33 @@ function updateFriends(otherFaces, mainPainting, randomFacesArray){
     var idArrays = fillSvgWithSvgs("#closeFriendsSvgs", otherFaces, numberOfFriendsInTab, relativePaddingX, "closeFriend");
     for (var i = 0; i < idArrays.length; i++){
       var faceW = $("#"+idArrays[i]).width() / ratioAroundHead;
-      fillSvgWithFace(d3.select("#"+idArrays[i]), faceW, otherFaces[i], mainPainting.webImage, true);
+      fillSvgWithFace(d3.select("#"+idArrays[i]), faceW, otherFaces[i], mainPainting.webImage);
     }
   }
 
-
-    relationsSvgId = "#distantRelationsSvgs";
-
-    var otherIdArray = fillSvgWithSvgs(relationsSvgId, randomFacesArray.slice(0,numberOfDistanceRelations), numberOfFriendsInTab, relativePaddingX, "distantFriend");
-    for (var i = 0; i < otherIdArray.length; i++){
-      var faceW = $("#"+otherIdArray[i]).width() / ratioAroundHead;
-      fillSvgWithFace(d3.select("#"+otherIdArray[i]), faceW, randomFacesArray[i], getPaintingById(randomFacesArray[i].paintingId)[0].artObject.webImage, true);
-    }
 }
 
 function fillSvgWithSvgs(svgId, facesData, nbPerTab, relativePadding, idPrefix){
   var bigWidth = $(svgId).width();
   var gap = bigWidth / (nbPerTab);
   //var smallWidth = Math.floor(gap - 2 * relativePadding * gap);
-  var smallWidth = gap;
+  smallWidth = 50;
   var bigHeight = 0;
   var idArrays = [];
   var svgsD3 = d3.select(svgId)
-                 .selectAll("svg")
+                 .selectAll("g")
                  .data(facesData)
                  .enter()
+                 .append("g")
+                 .attr("transform", "translate(0,0)")
+                 .append("g")
                  .append("svg")
-                 .attr("width", smallWidth)
-                 .attr("height", smallWidth)
+                 .attr("width", function(d,i){
+                   return smallWidth+"px";
+                 })
+                 .attr("height", function(d,i){
+                   return smallWidth+"px";
+                 })
                  .attr("x", function(d, i){
                    var inCol = i % nbPerTab;
                    return Math.floor(inCol * gap + relativePadding * gap);
@@ -261,13 +187,19 @@ function fillSvgWithSvgs(svgId, facesData, nbPerTab, relativePadding, idPrefix){
                 });
 
    d3.select(svgId).attr("height", bigHeight + gap);
+
+   console.log("FUCKING THING: ");
+   console.log($("#"+idArrays[0]).width());
+   console.log($("#closeFriendsSvgs").width());
+   $("#closeFriendsSvgs").attr('width', '500');
+   $("#"+idArrays[0]).attr('width', '50');
+   console.log($("#"+idArrays[0]).width());
+   console.log($("#closeFriendsSvgs").width());
+
    return idArrays;
 }
 
-function fillSvgWithFace(svgD3, faceW, face, webImage, clickable){
-  if (clickable){
-    svgD3.classed("brightness", "true");
-  }
+function fillSvgWithFace(svgD3, faceW, face, webImage){
   svgD3.append("svg:image")
          .attr("x", function(){
            var offsetLeft = face.topLeftX * faceW / face.width -  faceW * (ratioAroundHead - 1) / 2;
@@ -288,11 +220,6 @@ function fillSvgWithFace(svgD3, faceW, face, webImage, clickable){
               return "Data/Copyright.PNG";
             }
             return webImage.url;
-          })
-          .on('click', function(){
-            if (clickable){
-              updateFacebookPage(face.faceId);
-            }
           });
 }
 
