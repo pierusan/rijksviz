@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <title>HAGUE SCHOOL</title>
+      <link rel="stylesheet" href="styles.css"/>
+      <link href="https://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600" rel="stylesheet">
+      <script src="https://d3js.org/d3.v4.js"></script>
+      <script src="jquery-3.2.0.min.js"></script>
+   </head>
+
+   <body>
+
+      <!-- <div id="linksContainer">
+         <a class="clickables" href="">masterpieces</a>
+         <a class="clickables moveLeft" href="hague.html">hague school</a>
+         <a class="clickables moveLeft" href="https://www.w3schools.com/html/">faces</a>
+         <a class="clickables moveLeft" href="https://www.w3schools.com/html/">beyond the exhibits</a>
+      </div> -->
+
+      <header>
+         <h1 class="pageTitle">Hague School</h1>
+         <!-- <h5 class="pageDescription">Each painting on display from the Hague School is broken down by its pixels and displayed as a string of colors sorted by hue.</h2> -->
+      </header>
+
+
+      <!-- PROGRESS BAR -->
+      <!-- <div id="myProgress"></div> -->
+
+      <div id="hagueContainer">
+
+         <!-- LEFT: COLOR ROWS -->
+         <div class="tablecell" id="colorsContainer">
+            <div id="colorLabel" class="labels">Each Painting as a Strip of its Colors</div>
+            <canvas style="display: none;" id="canvas"></canvas>
+            <div id="colorBarsContainer"></div>
+         </div>
+
+         <!-- RIGHT: DIMENSIONS -->
+         <div class="tablecell" id="dimensionsContainer">
+
+            <!-- ALL PAINTINGS DIMENSIONS + IMAGE VIEWER + TITLE -->
+            <div id="paintingInfoContainer">
+               <h2 id="paintingTitle">Title</h3>
+               <h3 id="paintingArtist">Painting</h3>
+            <div id="dimensionsMainContainer"><br>
+               <div id="yAxisLabel" class="labels">Painting<br>Dimension<br>Height</div>
+               <div id="comprehensive"></div>
+               <div id="xAxisLabel" class="labels">Painting Dimension Width</div>
+            </div>
+
+            <!-- ALL ARTISTS (FILTERS) WITH SMALL MULTIPLES -->
+            <div id="dimensionsSmallMultContainer"><br>
+               <div id="artistCheckboxesContainer"></div>
+               <div id="smallMultiplesContainer"></div>
+            </div>
+
+         </div>
+      </div>
+
+
+
+
+      <script type="application/javascript" src="hague.js"></script>
+   </body>
+</html>

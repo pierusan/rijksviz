@@ -1,0 +1,274 @@
+/* ALL */
+body {
+    background-color: black;
+    color: white;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+}
+.hidden {
+    display: none;
+}
+header {
+    margin-left: 15px;
+    margin-top: -10px;
+}
+h1 {
+    font-size: 38px;
+    font-weight: 100;
+}
+h2 {
+    font-size: 24px;
+    font-weight: 100;
+}
+h3 {
+    font-size: 16px;
+    margin-top: -20px;
+    font-weight: 300;
+}
+h5 {
+    font-size: 16px;
+    margin-top: -20px;
+    font-weight: 100;
+}
+
+
+
+/* TEXT */
+.descriptions {
+    margin-left: 15px;
+}
+.artist.date {
+    font-weight: 800;
+}
+.title {
+    font-weight: 100;
+    font-size: 25px;
+}
+.labels{
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+
+
+
+/* HAGUE SCHOOL MAIN LAYOUT (CONTAINERS) */
+#hagueContainer{
+    margin-top: 0px;
+    display: table;
+    table-layout: fixed;
+    width:100%;
+}
+.tablecell {
+    display: table-cell;
+    height:400px;
+}
+#colorsContainer{
+}
+#dimensionsContainer{
+    margin-top: -50px;
+    position: relative;
+}
+#dimensionsMainContainer{
+    margin: auto;
+    display: block;
+    margin-top: -20px;
+}
+#comprehensive {
+    display: inline-block;
+}
+#yAxisLabel {
+    display: inline-block;
+    height: 200px;
+    text-align: right;
+    margin-top: 200px;
+    margin-right: 10px;
+    float: left;
+}
+#xAxisLabel{
+    display: block;
+    clear: both;
+    margin-left: 80px;
+}
+#dimensionsSmallMultContainer{
+    margin: auto;
+    clear: both;
+    display: block;
+}
+#paintingInfoContainer{
+    margin-top: -40px;
+}
+
+
+
+
+
+
+
+/* HOME PAGE */
+#home {
+    background-color: white;
+    color: black;
+}
+#explore {
+    z-index: 1000;
+    color: black;
+    text-align: center;
+    position: absolute; 
+    margin-top: 10px;
+    width: 100%; 
+    font-size: 70px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 100;
+}
+#background {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    /* Preserve aspet ratio */
+    width: 100%;
+    min-height: 100%;
+    opacity: 0.5;
+}
+#overview {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    /* Preserve aspet ratio */
+    width: 100%;
+}
+
+
+#linksContainer{
+    clear: both;
+    left: 50%;
+    transform: translate(-50%);
+    width: 800px;
+    position: absolute;
+    margin-top: 200px;
+}
+#logo{
+  position: fixed;
+  margin-top: 110px;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%);
+  width: 500px;
+}
+.clickables{
+    font-size: 25px;
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 800;
+    color: black;
+}
+.moveLeft {
+    margin-left: 9%;
+}
+
+
+
+/* PROGRESS BAR */
+
+#myProgress {
+    width: 100%;
+    background-color: grey;
+}
+.myBar {
+    width: 0%;
+    height: 3px;
+    background-color: green;
+}
+
+
+
+/* COLOR ROWS */
+#colorLabel{
+    margin-left: 50px;
+    margin-top: 0px;
+    vertical-align: top;
+    margin-bottom: 5px;
+}
+.colorBars {
+    /*background-color: orange;*/
+    margin-top: 1px;
+    margin-bottom: 1px;
+    height: 22px;
+    clear: both;
+}
+.colorStrips {
+    display: block;
+    width: 1px;
+    height: 15px;
+    float: left;
+}
+.dates {
+    display: block;
+    float: left;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+#dateLabel {
+    margin-top: 1px;
+}
+
+
+
+/* SELECTED IMAGE POPUP */
+
+.barPopups {
+    /* image from left and follow on scroll */
+/*    background-color: red;
+    height: 300px;
+    width: 300px;
+    position: fixed;
+    top: 250px;*/
+    /* image drop down beneath color row */
+    text-align: center;
+}
+.imageContainers {
+    display: inline-block;
+}
+.images {
+    display: block;
+    margin: 0 auto;
+    /*margin-left: 20px;*/
+}
+.descriptionContainers {
+    width: 0px;
+    height: 0px;
+    position: relative;
+    display: inline-block;
+    vertical-align: top
+}
+.descriptions {
+    text-align: left;
+    display: inline-block;
+    position: absolute;
+    width: 250px;
+}
+
+
+/* SMALL MULTIPLES */
+
+.smallMults{
+    width: 110px;
+    height: 90px;
+    position: relative;
+    display: inline-block;
+    margin: 2px;
+}
+.checkboxContainers{
+    height: 30px;
+    text-align: left;
+    position: absolute;
+    bottom: 0;
+}
+.checkboxes{
+    display: none;
+}
+.smallMultSVGs{
+    position: absolute;
+    bottom: 30px;
+}
