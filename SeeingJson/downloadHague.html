@@ -83,24 +83,42 @@
       var baseUrl = "https://www.rijksmuseum.nl/api/en/collection?key=rgAMNabw&format=json&ps=100&type=painting&imgonly=True&ondisplay=True";
 
       var painterUrl = null;
+      var fore = -1;
+      var first = -1;
+      var sec = -1;
       for (var i = 0; i < painters.length; i++){
+        var ind = 0;
+        if (painters[i][1] == "forerunners"){
+          fore++;
+          ind = fore;
+        }
+        else if (painters[i][1] == "firstGeneration") {
+          first++;
+          ind = first;
+        }
+        else{
+          sec++;
+          ind = sec;
+        }
+
+        hagueData["hague"][painters[i][1]].push([]);
         painterUrl = baseUrl + "&involvedMaker=" + painters[i][0];
-        SearchPainter(painterUrl, painters[i][1]);
+        SearchPainter(painterUrl, ind, painters[i][1]);
       }
     }
 
-    function SearchPainter(painterUrl, painterType){
+    function SearchPainter(painterUrl, painterIndex, painterType){
 
       d3.json(painterUrl, function (json) {
         var painterData = json;
 
         for (var i = 0; i < parseInt(painterData.artObjects.length); i++){
-          SearchPainting(painterData.artObjects[i].objectNumber, painterType);
+          SearchPainting(painterData.artObjects[i].objectNumber, painterIndex, painterType);
         }
       });
     }
 
-    function SearchPainting(objNumber, painterType){
+    function SearchPainting(objNumber, painterIndex, painterType){
       var url = "https://www.rijksmuseum.nl/api/en/collection/"+objNumber+"?key=rgAMNabw&format=json"
       var ptingId = objNumber.toLowerCase();
 
@@ -112,7 +130,7 @@
         }
 
         paintingData.artObject.onDisplay = "True";
-        hagueData["hague"][painterType].push(paintingData.artObject);
+        hagueData["hague"][painterType][painterIndex].push(paintingData);
         ptings++;
         if (ptings%10 == 0){
           console.log(ptings);
@@ -122,9 +140,6 @@
 
     function downloadJson(){
       saveData(hagueData, "hague.json");
-      for (var i = 0; i < hagueData["hague"]["secondGeneration"].length; i++){
-        console.log(hagueData["hague"]["secondGeneration"][i].objectNumber);
-      }
     }
 
     var saveData = (function () {

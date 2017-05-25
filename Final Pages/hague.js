@@ -1,6 +1,10 @@
 var POPUP_IMAGE_HEIGHT = 300;
 var LENGTH_COLOR_BARS = 625;
 
+var hagueDataUrl = "Data/hague.json";
+var hagueEra = "firstGeneration";
+
+var imagesFolder = "Data/Images/"
 
 var nbWithoutDim = 0;
 
@@ -134,6 +138,17 @@ function learnMorePopup() {
    Gather data and display.
 */
 function RunAll(){
+  d3.json(hagueDataUrl, function (json) {
+    console.log("LOCAL DATA");
+    console.log(json);
+    var myData = json.hague[hagueEra];
+    console.log(myData);
+    paintersData = myData;
+    DisplayData([]);
+  });
+
+  /*
+
    // set up colors
    for (var i = 0; i < painters.length; i++){
       paintersData.push([]);
@@ -143,6 +158,9 @@ function RunAll(){
       AdvSearch("", "painting", ""+painters[i], "True", "", "", "True", "", "", "", i);
    }
    DisplayData(ready);
+
+   */
+
 }
 
 
@@ -279,7 +297,7 @@ function DisplayData(readyArray){
    }
    // sort paintings by date
    allPaintings.sort(function(a,b) {
-      return a.artObject.dating.year - b.artObject.dating.year;
+      return a.artObject.dating.sortingDate - b.artObject.dating.sortingDate;
    });
    // create color display for each painting
    for (var i = 0; i < allPaintings.length; i++) {
@@ -294,7 +312,7 @@ function DisplayData(readyArray){
    for (var artist in artistDict) {
       // make a filter/checkbox for each painter
       artistCounter++;
-      console.log(artistCounter);
+      //console.log(artistCounter);
       CreateSmallMultFilters(artist, artistCounter);
       DisplayAllPaintingsDimensions(artistDict[artist], "#smallMult_" + artistCounter, "smallMultSVG_" + artistCounter, "smallMultSVGs", 100, 90, false, "2", "white");
    }
@@ -343,7 +361,8 @@ function DisplayPaintingColorInfo(paintingData){
 
          var img = new Image();
          var context = document.getElementById('canvas').getContext('2d');
-         img.src = painting.webImage.url + '?' + new Date().getTime();
+         //img.src = painting.webImage.url + '?' + new Date().getTime();
+         img.src = imagesFolder+painting.objectNumber.toLowerCase()+".jpg" + '?' + new Date().getTime();
          // fixes this issue: "Failed to execute 'getImageData' on 'CanvasRenderingContext2D': The canvas has been tainted by cross-origin data."
          img.setAttribute('crossOrigin', '');
          // get actual width and height of image (= # of pixels)
@@ -352,7 +371,8 @@ function DisplayPaintingColorInfo(paintingData){
          // get painting image data and create color bar
          img.onload = function() {
             var imagePixelData = GetImagePixelData(context, img, imgWidth, imgHeight);
-            DisplayColors(imagePixelData, id, painting.title, painting.principalMaker, painting.dating.year, painting.webImage.url);
+            //DisplayColors(imagePixelData, id, painting.title, painting.principalMaker, painting.dating.sortingDate, painting.webImage.url);
+            DisplayColors(imagePixelData, id, painting.title, painting.principalMaker, painting.dating.sortingDate, imagesFolder+painting.objectNumber.toLowerCase()+".jpg");
          };
       }
    }
@@ -479,7 +499,7 @@ function DisplayColors(colors, paintingIdentifier, imageTitle, imageArtist, imag
                          .selectAll("image")
                          .filter(function(d){
                           if (d.artObject.objectNumber.toLowerCase() == newIdentifier){
-                            console.log(d.artObject);
+                            //console.log(d.artObject);
                             if (d.artObject.label.title!=null){
                               title = d.artObject.label.title;
                               subtitle = d.artObject.label.makerLine;
@@ -969,7 +989,7 @@ function DisplayAllPaintingsDimensions(aggregateData, div, divID, divClass, init
                           if (d.artObject.webImage == null){
                             return null;
                           }
-                          return d.artObject.webImage.url;
+                          return imagesFolder+d.artObject.objectNumber.toLowerCase()+".jpg";
                         });
 
 
