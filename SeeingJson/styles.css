@@ -32,3 +32,11 @@
   fill: white;
   font-size: 6px;
 }
+
+#masterPieceTitle {
+  fill: white;
+}
+
+#masterPieceSubtitle {
+  fill: white;
+}

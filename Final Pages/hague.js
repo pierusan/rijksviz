@@ -12,7 +12,7 @@ var dimTotW = 200;
 
 // TODO:
 // show if on display or not
-// create ALL artists filter 
+// create ALL artists filter
 // hover tool tip instead of drop down
 
 var paintersData = [];
@@ -264,9 +264,9 @@ function DisplayData(readyArray){
    }
    // when all data is pulled, put all paintings and their data in 1 array
    var allPaintings = [];
-   for (var i = 0; i < paintersData.length; i++) { 
+   for (var i = 0; i < paintersData.length; i++) {
       var eachPainter = paintersData[i];
-      for (var j = 0; j < eachPainter.length; j++) { 
+      for (var j = 0; j < eachPainter.length; j++) {
          allPaintings.push(eachPainter[j]);
       }
    }
@@ -275,22 +275,22 @@ function DisplayData(readyArray){
       return a.artObject.dating.year - b.artObject.dating.year;
    });
    // create color display for each painting
-   for (var i = 0; i < allPaintings.length; i++) { 
+   for (var i = 0; i < allPaintings.length; i++) {
       DisplayPaintingColorInfo(allPaintings[i]);
    }
    // create big dimensions display
    DisplayAllPaintingsDimensions(allPaintings, "#comprehensive", "comprehensiveSVG", "", 600, 600, true, ".3", "white");
    // create small multiples display
    var artistDict = CreateArtistDict(allPaintings);
-   //DisplayAllPaintingsDimensions(artistDict['Jacob Maris'], "#artistCheckboxesContainer", "smallMultSVG"); 
+   //DisplayAllPaintingsDimensions(artistDict['Jacob Maris'], "#artistCheckboxesContainer", "smallMultSVG");
    var artistCounter = 0;
    for (var artist in artistDict) {
       // make a filter/checkbox for each painter
       artistCounter++;
       console.log(artistCounter);
-      CreateSmallMultFilters(artist, artistCounter); 
+      CreateSmallMultFilters(artist, artistCounter);
       DisplayAllPaintingsDimensions(artistDict[artist], "#smallMult_" + artistCounter, "smallMultSVG_" + artistCounter, "smallMultSVGs", 100, 90, false, "2", "white");
-   } 
+   }
    //DisplaySmallMultDimensions();
 }
 
@@ -325,8 +325,8 @@ function DisplayPaintingColorInfo(paintingData){
          var id = painting.objectNumber.split('-').join('_');
          // create 1 bar div if not created already (added if statement bc problems with duplicate )
          if(document.getElementById("bar" + id) == null){
-            // TODO wtf fix this 
-            if ("SK_A_2381" == id){ 
+            // TODO wtf fix this
+            if ("SK_A_2381" == id){
                console.log(paintingData);
             }
             $("#colorBarsContainer").append('<div class="colorBars" id=bar' + id + '></div>');
@@ -338,7 +338,7 @@ function DisplayPaintingColorInfo(paintingData){
          var context = document.getElementById('canvas').getContext('2d');
          img.src = painting.webImage.url + '?' + new Date().getTime();
          // fixes this issue: "Failed to execute 'getImageData' on 'CanvasRenderingContext2D': The canvas has been tainted by cross-origin data."
-         img.setAttribute('crossOrigin', ''); 
+         img.setAttribute('crossOrigin', '');
          // get actual width and height of image (= # of pixels)
          var imgWidth = painting.webImage.width;
          var imgHeight = painting.webImage.height;
@@ -362,7 +362,7 @@ function DisplayPaintingColorInfo(paintingData){
 */
 function GetImagePixelData(context, img, imgWidth, imgHeight){
     // to fill with the hex values of image's pixels
-    var colorsArray = []; 
+    var colorsArray = [];
     // TODO: seems like you have to set accurate canvas dimensions and drawImage to access image data? but don't want to see it so set display: none in HTML. necessary? fix
     context.canvas.width  = imgWidth;
     context.canvas.height = imgHeight;
@@ -373,15 +373,15 @@ function GetImagePixelData(context, img, imgWidth, imgHeight){
     var totalPixels = imgWidth * imgHeight;
     var x = Math.floor(1 / (Math.sqrt(LENGTH_COLOR_BARS/(totalPixels))));
     // go through in both x and y directions and grab evenly spaced pixels to cover the entire painting equally
-    for (i = 0; i < imgWidth; i+=x) { 
-        for (j = 0; j < imgHeight; j+=x) { 
+    for (i = 0; i < imgWidth; i+=x) {
+        for (j = 0; j < imgHeight; j+=x) {
             var eachPixelData = context.getImageData(i, j, 1, 1).data;
             // TODO: this converts to hex from rgb just to convert back later?? necessary? fix
             var hex = "#" + ("000000" + RGBtoHex(eachPixelData[0], eachPixelData[1], eachPixelData[2])).slice(-6);
             colorsArray.push(hex);
         }
     }
-    var sortedArray = CreateSortedArray(colorsArray, 'hue'); 
+    var sortedArray = CreateSortedArray(colorsArray, 'hue');
     // sort  subsections by saturation
     //var sortedArray = SortColorSubsections(sortedArray, 150);
     // standard number of pixels
@@ -431,7 +431,7 @@ function RemoveExtraPixels(arrayToShorten, colorBarNumPixels) {
 
 
 /*
-    Write HTML to display 1 bar of color for each painting. 
+    Write HTML to display 1 bar of color for each painting.
     @param Array of all Color objects for the current painting image.
     @param Painting number unique to API.
     @param Title for painting
@@ -457,7 +457,7 @@ function DisplayColors(colors, paintingIdentifier, imageTitle, imageArtist, imag
     }
 
     d3.select("#colorBarsContainer" + '>#bar' + paintingIdentifier)
-      .on("mouseenter", function() { 
+      .on("mouseenter", function() {
         //Handle the change in color for the date of the painting
         d3.select(this).select(".labels")
                        .select("#dateLabel")
@@ -573,7 +573,7 @@ function DisplayColors(colors, paintingIdentifier, imageTitle, imageArtist, imag
 
    });
 
-      
+
 };
 
 
@@ -623,17 +623,17 @@ ConstructColor = function(colorObj){
     var r = parseInt(hex.substring(0, 2), 16) / 255;
     var g = parseInt(hex.substring(2, 4), 16) / 255;
     var b = parseInt(hex.substring(4, 6), 16) / 255;
-    
+
     // Get max/min values for Chroma
     var max = Math.max.apply(Math, [r, g, b]);
     var min = Math.min.apply(Math, [r, g, b]);
-    
+
     // Variables for HSV value of hex color
     var chr = max - min;
     var hue = 0;
     var val = max;
     var sat = 0;
-    
+
     if (val > 0) {
         // Calculate Saturation only if Value isn't 0
         sat = chr / val;
@@ -727,12 +727,12 @@ SortColorsByChr = function (colors) {
 //         var artistClass = imgArtist.split(' ').join('').toLowerCase();
 //         console.log(artistClass);
 //         $("#barPopup" + paintingID).addClass(artistClass);
-//         $("#barPopup" + paintingID).append('<div class="imageContainers" id="imageContainer' + 
+//         $("#barPopup" + paintingID).append('<div class="imageContainers" id="imageContainer' +
 //             paintingID + '"><img class="images" id="image"' + paintingID + ' src=' + imgURL + ' /></div>');
 //         $("#barPopup" + paintingID + ">.imageContainers>.images").attr('alt', imgTitle);
 //         $("#barPopup" + paintingID + ">.imageContainers>.images").css('height', POPUP_IMAGE_HEIGHT);
 //         // append text data
-//         $("#barPopup" + paintingID).append('<div class="descriptionContainers" id=descriptionContainer' + 
+//         $("#barPopup" + paintingID).append('<div class="descriptionContainers" id=descriptionContainer' +
 //             paintingID + '><div class="descriptions"><p class="title">' + imgTitle + '</p><p class="artist">' + imgArtist + '</p><p class="date">' + imgDate + '</p></div></div>');
 //     }
 //     // animate
@@ -757,10 +757,10 @@ SortColorsByChr = function (colors) {
    @param int index
 */
 function CreateSmallMultFilters(artistLabel, numArtist){
-   // var artistLabel = artist.split('+').join(' '); 
+   // var artistLabel = artist.split('+').join(' ');
    // artistLabel = artistLabel.split('%20').join(' ');
    // $("#smallMultiplesContainer").append('</div>');
-   $("#smallMultiplesContainer").append('<div class="smallMults" id="smallMult_' + numArtist + '">' + 
+   $("#smallMultiplesContainer").append('<div class="smallMults" id="smallMult_' + numArtist + '">' +
         '<div class="checkboxContainers labels"><input type="checkbox" id="checkbox' + numArtist + '" class="checkboxes">' +
               '<label for="checkbox' + numArtist +'"><br>' + artistLabel + '</label></div></div>');
    $('#smallMultiplesContainer>.smallMults>.checkboxContainers>.checkboxes').prop('checked', true);
@@ -782,7 +782,7 @@ function DisplayAllPaintingsDimensions(aggregateData, div, divID, divClass, init
   d3.select(div)
       .append("svg")
       .attr("id", divID)
-      .attr("class", divClass); 
+      .attr("class", divClass);
 
   var paintingsToRemove = ["SK-C-1706", "SK-A-1115"];
   var indexesToRemove = [];
@@ -1137,5 +1137,3 @@ function DisplayAllPaintingsDimensions(aggregateData, div, divID, divClass, init
 }
 
 // PIERRE'S CODE FOR MAIN DIMENSIONS: COMPREHENSIVE VIEW
-
-
