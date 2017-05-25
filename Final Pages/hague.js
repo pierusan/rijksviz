@@ -141,6 +141,7 @@ function RunAll(){
   d3.json(hagueDataUrl, function (json) {
     console.log("LOCAL DATA");
     console.log(json);
+    json.hague.firstGeneration[12][0].artObject.label.title = "View near the Geest Bridge";
     var myData = json.hague[hagueEra];
     console.log(myData);
     paintersData = myData;
