@@ -123,6 +123,13 @@ $(document).ready(function() {
 });
 
 
+// When the user clicks on <div>, open the popup
+function learnMorePopup() {
+    var popup = document.getElementById("learnHague");
+    popup.classList.toggle("hidden");
+}
+
+
 /*
    Gather data and display.
 */

@@ -19,16 +19,26 @@
       </div> -->
 
       <header>
+         <a class="helpButtons" href="home.html"><h4>home</h4></a>
+         <div class="helpButtons" onclick="learnMorePopup()"><h4>learn more</h4></div> 
          <h1 class="pageTitle">Hague School</h1>
-         <!-- <h5 class="pageDescription">Each painting on display from the Hague School is broken down by its pixels and displayed as a string of colors sorted by hue.</h2> -->
+         <h6 class="pageDescription">Each painting on display from the Hague School is broken down by its pixels and displayed as a string of colors sorted by hue. </h6>
       </header>
+
+
+      <div class="line"></div>
+
+
+      <div id="learnHague" class="hidden popup">
+         <div class="popuptext"><h5>This focuses in on the painters of the Hague School and enables users to compare and explore their work through their paintings' colors and dimensions. Each painting is summarized by a strip of its colors ordered by hue; each painting is also stacked on top of one another with their bottom left corners lined-up. These two visualizations are connected with interactivity so users can identify which dimensions pair with which colors, allowing users to analyze the paintings in a new light.</h5></div>
+         <h4 class="popupClose" onclick="learnMorePopup()">close</h4>
+      </div>
 
 
       <!-- PROGRESS BAR -->
       <!-- <div id="myProgress"></div> -->
 
       <div id="hagueContainer">
-
          <!-- LEFT: COLOR ROWS -->
          <div class="tablecell" id="colorsContainer">
             <div id="colorLabel" class="labels">Each Painting as a Strip of its Colors</div>
