@@ -2,7 +2,49 @@ var POPUP_IMAGE_HEIGHT = 300;
 var LENGTH_COLOR_BARS = 625;
 
 var hagueDataUrl = "Data/hague.json";
-var hagueEra = "firstGeneration";
+
+var forerunnersCheckbox = document.querySelector('input[value="forerunners"]');
+var firstGenCheckbox = document.querySelector('input[value="firstGen"]');
+var secondGenCheckbox = document.querySelector('input[value="secondGen"]');
+
+forerunnersCheckbox.onchange = function(){
+  if (forerunnersCheckbox.checked){
+    $(".forerunnersBar").show();
+    $(".forerunnersDimensionsGroup").show();
+    $(".forerunnersSmallMult").show();
+  }
+  else{
+    $(".forerunnersBar").hide();
+    $(".forerunnersDimensionsGroup").hide();
+    $(".forerunnersSmallMult").hide();
+  }
+}
+
+firstGenCheckbox.onchange = function(){
+  if (firstGenCheckbox.checked){
+    $(".firstGenerationBar").show();
+    $(".firstGenerationDimensionsGroup").show();
+    $(".firstGenerationSmallMult").show();
+  }
+  else{
+    $(".firstGenerationBar").hide();
+    $(".firstGenerationDimensionsGroup").hide();
+    $(".firstGenerationSmallMult").hide();
+  }
+}
+
+secondGenCheckbox.onchange = function(){
+  if (secondGenCheckbox.checked){
+    $(".secondGenerationBar").show();
+    $(".secondGenerationDimensionsGroup").show();
+    $(".secondGenerationSmallMult").show();
+  }
+  else{
+    $(".secondGenerationBar").hide();
+    $(".secondGenerationDimensionsGroup").hide();
+    $(".secondGenerationSmallMult").hide();
+  }
+}
 
 var imagesFolder = "Data/Images/"
 
@@ -11,7 +53,7 @@ var nbWithoutDim = 0;
 var xAxisHeight = 0;
 var yAxisWidth = 0;
 
-var dimTotH = 130;
+var dimTotH = 137;
 var dimTotW = 200;
 
 // TODO:
@@ -99,9 +141,9 @@ $(document).ready(function() {
    // color bar clicked
    $("#colorBarsContainer").on("click", ".colorBars", function(){
       // get id number from string id
-      var paintingID = this.id.substring(3);
-      console.log("HELLO");
-      console.log(paintingID);
+      //var paintingID = this.id.substring(3);
+      //console.log("HELLO");
+      //console.log(paintingID);
       // if (!($("#barPopup" + paintingID).hasClass('hidden'))){
       //    HidePopup(paintingID);
       // }
@@ -142,10 +184,32 @@ function RunAll(){
     console.log("LOCAL DATA");
     console.log(json);
     json.hague.firstGeneration[12][0].artObject.label.title = "View near the Geest Bridge";
-    var myData = json.hague[hagueEra];
+    var myData = json.hague["secondGeneration"];
+    for (var i = 0; i < json.hague["firstGeneration"].length; i++){
+      myData.push(json.hague["firstGeneration"][i]);
+    }
+    for (var i = 0; i < json.hague["forerunners"].length; i++){
+      myData.push(json.hague["forerunners"][i]);
+    }
     console.log(myData);
     paintersData = myData;
     DisplayData([]);
+    if (!secondGenCheckbox.checked){
+      $(".secondGenerationBar").hide();
+      $(".secondGenerationDimensionsGroup").hide();
+      $(".secondGenerationSmallMult").hide();
+    }
+    if (!firstGenCheckbox.checked){
+      $(".firstGenerationBar").hide();
+      $(".firstGenerationDimensionsGroup").hide();
+      $(".firstGenerationSmallMult").hide();
+    }
+    if (!forerunnersCheckbox.checked){
+      $(".forerunnersBar").hide();
+      $(".forerunnersDimensionsGroup").hide();
+      $(".forerunnersSmallMult").hide();
+    }
+
   });
 
   /*
@@ -314,7 +378,7 @@ function DisplayData(readyArray){
       // make a filter/checkbox for each painter
       artistCounter++;
       //console.log(artistCounter);
-      CreateSmallMultFilters(artist, artistCounter);
+      CreateSmallMultFilters(artist, artistCounter, artistDict[artist][0].artObject.hagueEra);
       DisplayAllPaintingsDimensions(artistDict[artist], "#smallMult_" + artistCounter, "smallMultSVG_" + artistCounter, "smallMultSVGs", 100, 90, false, "2", "white");
    }
    //DisplaySmallMultDimensions();
@@ -355,7 +419,7 @@ function DisplayPaintingColorInfo(paintingData){
             if ("SK_A_2381" == id){
                console.log(paintingData);
             }
-            $("#colorBarsContainer").append('<div class="colorBars" id=bar' + id + '></div>');
+            $("#colorBarsContainer").append('<div class="colorBars '+painting.hagueEra+'Bar" id=bar' + id + '></div>');
             // create another div for image popup that will drop down on click
             // $("#colorBarsContainer").append('<div class="barPopups hidden" id=barPopup' + id + '></div>');
          }
@@ -784,11 +848,11 @@ SortColorsByChr = function (colors) {
    @param String of artist name that contains extra characters necessary for API search.
    @param int index
 */
-function CreateSmallMultFilters(artistLabel, numArtist){
+function CreateSmallMultFilters(artistLabel, numArtist, hagueEra){
    // var artistLabel = artist.split('+').join(' ');
    // artistLabel = artistLabel.split('%20').join(' ');
    // $("#smallMultiplesContainer").append('</div>');
-   $("#smallMultiplesContainer").append('<div class="smallMults" id="smallMult_' + numArtist + '">' +
+   $("#smallMultiplesContainer").append('<div class="smallMults '+hagueEra+'SmallMult" id="smallMult_' + numArtist + '">' +
         '<div class="checkboxContainers labels"><input type="checkbox" id="checkbox' + numArtist + '" class="checkboxes">' +
               '<label for="checkbox' + numArtist +'"><br>' + artistLabel + '</label></div></div>');
    $('#smallMultiplesContainer>.smallMults>.checkboxContainers>.checkboxes').prop('checked', true);
@@ -805,7 +869,7 @@ function getDimByType(dimArray,dimType) {
 }
 
 function DisplayAllPaintingsDimensions(aggregateData, div, divID, divClass, initSvgWidth, initSvgHeight, hoverShowImageOn, strokeWidth, strokeColor){
-  console.log(aggregateData);
+  //console.log(aggregateData);
 
   d3.select(div)
       .append("svg")
@@ -822,7 +886,7 @@ function DisplayAllPaintingsDimensions(aggregateData, div, divID, divClass, init
       }
     }
   }
-  console.log("Number of indexes Removed: "+indexesToRemove.length);
+  //console.log("Number of indexes Removed: "+indexesToRemove.length);
   for (var i = 0; i < indexesToRemove.length; i++){
     aggregateData.splice(indexesToRemove[i] - i, 1);
   }
@@ -934,7 +998,25 @@ function DisplayAllPaintingsDimensions(aggregateData, div, divID, divClass, init
   var groupes = thisDimPlaceholder.selectAll("g")
       .data(aggregateData)
       .enter()
-      .append("g");
+      .append("g")
+      .classed("firstGenerationDimensionsGroup", function(d){
+        if (d.artObject.hagueEra == "firstGeneration"){
+          return true;
+        }
+        return false;
+      })
+      .classed("secondGenerationDimensionsGroup", function(d){
+        if (d.artObject.hagueEra == "secondGeneration"){
+          return true;
+        }
+        return false;
+      })
+      .classed("forerunnersDimensionsGroup", function(d){
+        if (d.artObject.hagueEra == "forerunners"){
+          return true;
+        }
+        return false;
+      });
 
   var images = groupes.selectAll("image")
                       .data(function(d){
