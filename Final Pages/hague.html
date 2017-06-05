@@ -20,19 +20,21 @@
       <div id="allContent">
 
       <header>
+
          <!-- LEFT: title, drop down description, social media sharing icons -->
          <i class="caret_expanded "></i>
          <i class="caret_closed"></i>
+
          <h1 class="pageTitle">Hague School</h1>
          <div class="pageDescription">
             <div class="pageDescriptionColumn">
-               <h5>Each painting on display from the Hague School is broken down by its pixels and displayed as a string of colors sorted by hue.</h5>
+               <h5>This visualization presents each painting on display from the Hague School as a strip of all of its colors (left) and as an outline of its canvas to showcase dimensions (right).</h5>
+            </div>
+            <div class="pageDescriptionColumn"> 
+               <h6>The Hague School is a group of artists who lived and worked in The Hague, The Netherlands, between 1860 and 1890. The Rijksmuseum has a relatively comprehensive selection of these works; this collection is one of their biggest attractions. We showcased the paintings' colors because this group was known for using primarily gloomy and grayish colors at first, but later shifting to lighter and brighter colors under the influence of French Impressionism. Our algorithms grabbed evenly spaced pixels from each painting image to get an assortment of the painting's colors, sorted all of the colors by hue, and presented the painting as a strip of color.</h6>
             </div>
             <div class="pageDescriptionColumn">
-               <h6>This focuses in on the painters of the Hague School and enables users to compare and explore their work through their paintings' colors and dimensions. Each painting is summarized by a strip of its colors ordered by hue; each painting is also stacked on top of one another with their bottom left corners lined-up.</h6>
-            </div>
-            <div class="pageDescriptionColumn">
-               <h6>These two visualizations are connected with interactivity so users can identify which dimensions pair with which colors, allowing users to analyze the paintings in a new light.</h6>
+               <h6>The dimensions section stacks each painting outline on top of one another with their bottom-left corners aligned. The colors and dimensions visualizations are connected with interactivity so users can identify which dimensions couple with which colors upon hovering. The artists are also listed below to enable users to compare their use of specific colors and painting size.</h6>
             </div>
 
             <div class="end"></div>
@@ -65,6 +67,14 @@
 
 
 
+      <div>
+        <input type="checkbox" id="forerunners" name="era" value="forerunners" checked>
+        <label for="coding">Forerunners</label>
+        <input type="checkbox" id="firstGen" name="era" value="firstGen">
+        <label for="coding">First Generation</label>
+        <input type="checkbox" id="secondGen" name="era" value="secondGen">
+        <label for="coding">Second Generation</label>
+      </div>
 
       <!-- PROGRESS BAR -->
       <!-- <div id="myProgress"></div> -->

@@ -2,6 +2,7 @@ var mapUrl = "Data/amsterdamMap.svg"; // Path for Amsterdam Vectorized Map
 var mapRatio = 1; // Dimensions ratio of the map
 var mapWidth = 700.; // Desired width for the map
 var resizingFactor = 1; // Factor used when resizing the map to fit the webpage
+var numberOfPaths = 10;
 var mapSvg = null; // SVG element for the map
 var animationGroup = null; // Group withing the svg where the pixels will flow;
 var imagesFolder = "Data/Images/"; // Path where the images of the masterpieces are saved
@@ -16,7 +17,11 @@ var placeHolderOffsetX = 50; // Horizontal padding of the image placeholder
 var placeHolderOffsetY = 60; // Vertical padding of the image placeholder
 var placeHolderWidth = 0;
 var placeHolderHeight = 0;
-var floatingPixDims = {"width": 10, "height": 10}; // Dimensions of the pixels floating in the canals
+var titlesPlaceHolder = null;
+var titlesOffsetX = 40;
+var titlesOffsetY = 700;
+var subtitleOffsetY = 20;
+var floatingPixDims = {"width": 15, "height": 15}; // Dimensions of the pixels floating in the canals
 var verticalOffsetRange = 5; //Vertical
 var delayBtwPix = 22; // delay between the start of every floating pixel
 var pathDuration = 4000; //Duration of the move along the path
@@ -25,6 +30,9 @@ var pixelFinalSize = 0;
 var nbPixelInPlace = 0;
 var fadingOutDuration = 2000;
 var fadingOutDelay = 1000;
+var imageBg = "#191919";
+var imageBorder= "black"
+var rectBorder = "#555555"
 
 //Populate our array with the masterpieces data
 var masterPieces = [];
@@ -391,8 +399,6 @@ console.log(masterPieces);
 
 
 
-
-
 createButtons();
 loadMap();
 //displayMasterPiece(0);
@@ -437,6 +443,9 @@ function loadMap() {
   //Create the SVG that will contain the final image of the painting
   createImageContainer();
 
+  //Create the Text placeholders
+  createTitlesContainer();
+
   //Create Animation Group in the Svg where the flowing pixels will lie
   animationGroup = mapSvg.append("g")
                           .attr("id", "animationGroup");
@@ -468,11 +477,29 @@ function createImageContainer(){
                                   .attr("y", 1)
                                   .attr("width", placeHolderWidth - 2)
                                   .attr("height", placeHolderHeight - 2)
-                                  .style("fill", "white")
-                                  .style("stroke", "#555555")
+                                  .style("fill", imageBg)
+                                  .style("stroke", imageBorder)
                                   .style("opacity", 0);
 }
 
+function createTitlesContainer(){
+  var titlesX = mapWidth + titlesOffsetX;
+  var titlesY = titlesOffsetY;
+
+  titlesPlaceHolder = d3.select("#svgContainer")
+                        .append("g")
+                        .attr("transform","translate("+titlesX+", "+titlesY+")");
+
+  titlesPlaceHolder.append("text")
+                   .attr("x", 0)
+                   .attr("y", 0)
+                   .attr("id","masterPieceTitle");
+
+  titlesPlaceHolder.append("text")
+                   .attr("x", 0)
+                   .attr("y", subtitleOffsetY)
+                   .attr("id","masterPieceSubtitle");
+}
 
 function resetPage(){
   imagePlaceHolder.style("opacity", 0);
@@ -482,6 +509,7 @@ function resetPage(){
                 .remove();
   finalPixGroup.selectAll("*")
                .remove();
+  titlesPlaceHolder.style("opacity", 0);
 
   nbPixelInPlace = 0;
 }
@@ -538,7 +566,7 @@ function getPixSize(pieceIndex, placeholderSize){
 
 function createPix(pieceIndex){
   //Add the random offset
-  addOffsetAndDelay(pieceIndex);
+  addDataForPixels(pieceIndex);
 
   //Create the rectangles for the floating pixels;
   var floatingPixels = animationGroup.selectAll("rect")
@@ -555,6 +583,7 @@ function createPix(pieceIndex){
                                         .style("fill", function(d){
                                           return d.hex;
                                         })
+                                        .style("stroke", rectBorder)
                                         .style("opacity", 0);
 
   //Create the rectangles for the final pixels
@@ -577,13 +606,23 @@ function createPix(pieceIndex){
    return floatingPixels;
 }
 
-function addOffsetAndDelay(pieceIndex){
+function addDataForPixels(pieceIndex){
+  var randomPath = [];
+  for (var j = 0; j < Math.floor( (masterPieces[pieceIndex].colorsArray.length - 1) / batchSize) + 1; j++){
+    randomPath.push(Math.floor(Math.random() * numberOfPaths));
+  }
+
+  console.log(randomPath);
+
   for (var i = 0; i < masterPieces[pieceIndex].colorsArray.length; i++){
       //Add random offset between -1 and +1
       masterPieces[pieceIndex].colorsArray[i].offset = Math.random() * 2 - 1;
 
       //Add delay based on the the index in the array
       masterPieces[pieceIndex].colorsArray[i].delay = i * delayBtwPix + Math.floor(i / batchSize) * delayBtwBatches;
+
+      //Add a path followed by the pixels
+      masterPieces[pieceIndex].colorsArray[i].pathNumber = randomPath[Math.floor(i / batchSize)];
   }
 }
 
@@ -595,7 +634,7 @@ function animatePix(pixels, pathNumber){
              })
              .style("opacity", 0)
              .on("end", function(d){
-               var path = d3.select("#path"+pathNumber);
+               var path = d3.select("#path"+d.pathNumber);
                var startPoint = pathStartPoint(path);
                d3.select(this)
                   .attr("x",0)
@@ -692,6 +731,26 @@ function revealPainting(totalNbOfPixels, pieceIndex, placeholderSize){
       .duration(fadingOutDuration)
       .style("opacity", 0);
   }
+
+  titlesPlaceHolder.style("opacity", 1);
+
+  d3.select("#masterPieceTitle")
+    .html(masterPieces[pieceIndex].title)
+    .style("opacity", 0)
+    .transition()
+    .ease(d3.easeLinear)
+    .delay(fadingOutDelay)
+    .duration(fadingOutDuration)
+    .style("opacity", 1);
+
+  d3.select("#masterPieceSubtitle")
+    .style("opacity", 0)
+    .html(masterPieces[pieceIndex].subtitle)
+    .transition()
+    .ease(d3.easeLinear)
+    .delay(fadingOutDelay)
+    .duration(fadingOutDuration)
+    .style("opacity", 1);
 }
 
 

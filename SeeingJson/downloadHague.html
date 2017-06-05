@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Download Hague Json</title>
+    <link rel="stylesheet" href="styles.css"/>
+    <script src="https://d3js.org/d3.v4.js"></script>
+</head>
+
+<body>
+  <button onclick="loadHague()">Load Hague</button>
+  <button onclick="downloadJson()">Download Hague Json</button>
+  <br />
+  <div id="myProgress">
+    <div class="myBar"></div>
+  </div>
+  <h4 class="myTitle" id="subTitle"></h4>
+  <h4 class="myTitle" id="count"></h4>
+
+  <script>
+    var hagueData = {};
+    hagueData["hague"] = {};
+    hagueData["hague"]["forerunners"] = [];
+    hagueData["hague"]["firstGeneration"] = [];
+    hagueData["hague"]["secondGeneration"] = [];
+
+    var painters = [//Wikipedia Forerunners
+                    ["Johannes+Warnardus+Bilders","forerunners"],
+                    ["Barend+Cornelis+Koekkoek","forerunners"],
+                    ["Andreas+Schelfhout","forerunners"],
+                    ["Hendrikus+van+de+Sande+Bakhuyzen","forerunners"],
+                    ["Bartholomeus+Johannes+van+Hove","forerunners"],
+                    //["Hubertus+van+Hove","forerunners"],
+                    //["Jacob+Jan+van+der+Maaten","forerunners"],
+                    ["Charles+Rochussen","forerunners"],
+                    //["Pieter+Frederik+van+Os","forerunners"],
+                    ["Antonie+Waldorp","forerunners"],
+
+                    //Wikipedia First Generation
+                    ["David+Adolph+Constant+Artz","firstGeneration"],
+                    ["Gerard+Bilders","firstGeneration"],
+                    ["Johannes+Bosboom","firstGeneration"],
+                    ["Johannes+Hubertus+Leonardus+de+Haas","firstGeneration"],
+                    ["Paul%20Joseph%20Constantin%20Gabriël","firstGeneration"],
+                    ["Jozef+Israëls","firstGeneration"],
+                    ["Jacob+Maris","firstGeneration"],
+                    ["Matthijs+Maris","firstGeneration"],
+                    ["Willem+Maris","firstGeneration"],
+                    ["Anton+Mauve","firstGeneration"],
+                    ["Hendrik+Willem+Mesdag","firstGeneration"],
+                    //["Taco+Mesdag","firstGeneration"],
+                    //["Sientje+Mesdag-van+Houten","firstGeneration"],
+                    ["Willem+Roelofs+(I)","firstGeneration"],
+                    ["Johan+Hendrik+Weissenbruch","firstGeneration"],
+
+                    //Wikipedia Second Generation
+                    //["Johannes+Evert+Akkeringa","secondGeneration"]
+                    //["Floris+Arntzenius","secondGeneration"]
+                    ["Bernardus+Johannes+Blommers","secondGeneration"],
+                    ["George+Hendrik+Breitner","secondGeneration"],
+                    ["Théophile+de+Bock","secondGeneration"],
+                    //Bernard de Hoog ...
+                    ["Willem+de+Zwart","secondGeneration"],
+                    ["Isaac+Israels","secondGeneration"],
+                    ["Albert+Neuhuys+(1844-1914)","secondGeneration"],
+                    ["Geo+Poggenbeek","secondGeneration"],
+                    ["Philip+Sadée","secondGeneration"],
+                    ["Willem+Bastiaan+Tholen","secondGeneration"],
+                    ["Julius+Jacobus+van+de+Sande+Bakhuyzen","secondGeneration"],
+                    //["Herman+Johannes+van+der+Weele","secondGeneration"],
+                    //Gerrit van Houten
+                    //Anthon van Rappard
+                    ["Jan+Hillebrand+Wijsmuller","secondGeneration"]
+                    ];
+
+    var ptings = 0;
+
+    console.log(hagueData);
+    console.log(painters);
+
+    function loadHague(){
+      var baseUrl = "https://www.rijksmuseum.nl/api/en/collection?key=rgAMNabw&format=json&ps=100&type=painting&imgonly=True&ondisplay=True";
+
+      var painterUrl = null;
+      var fore = -1;
+      var first = -1;
+      var sec = -1;
+      for (var i = 0; i < painters.length; i++){
+        var ind = 0;
+        if (painters[i][1] == "forerunners"){
+          fore++;
+          ind = fore;
+        }
+        else if (painters[i][1] == "firstGeneration") {
+          first++;
+          ind = first;
+        }
+        else{
+          sec++;
+          ind = sec;
+        }
+
+        hagueData["hague"][painters[i][1]].push([]);
+        painterUrl = baseUrl + "&involvedMaker=" + painters[i][0];
+        SearchPainter(painterUrl, ind, painters[i][1]);
+      }
+    }
+
+    function SearchPainter(painterUrl, painterIndex, painterType){
+
+      d3.json(painterUrl, function (json) {
+        var painterData = json;
+
+        for (var i = 0; i < parseInt(painterData.artObjects.length); i++){
+          SearchPainting(painterData.artObjects[i].objectNumber, painterIndex, painterType);
+        }
+      });
+    }
+
+    function SearchPainting(objNumber, painterIndex, painterType){
+      var url = "https://www.rijksmuseum.nl/api/en/collection/"+objNumber+"?key=rgAMNabw&format=json"
+      var ptingId = objNumber.toLowerCase();
+
+      d3.json(url, function (json) {
+        var paintingData = json;
+
+        if (!paintingData.artObject.hasImage){
+          return;
+        }
+
+        paintingData.artObject.onDisplay = "True";
+        paintingData.artObject.hagueEra = painterType;
+        hagueData["hague"][painterType][painterIndex].push(paintingData);
+        ptings++;
+        if (ptings%10 == 0){
+          console.log(ptings);
+        }
+      });
+    }
+
+    function downloadJson(){
+      saveData(hagueData, "hague.json");
+    }
+
+    var saveData = (function () {
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    return function (data, fileName) {
+        var json = JSON.stringify(data),
+            blob = new Blob([json], {type: "octet/stream"}),
+            url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+        };
+    }());
+
+    function getOnDisplayById(ptingId) {
+      return collectionData.collection.filter(
+          function(element){ return element.paintingId == ptingId }
+      );
+    }
+
+
+  </script>
+</body>
+
+</html>
