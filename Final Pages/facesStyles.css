@@ -44,9 +44,48 @@ h5 {
     margin-top: -20px;
     font-weight: 100;
 }
-span {
 
+
+
+
+
+
+header {
+    margin-left: 15px;
+    margin-top: -10px;
 }
+h1 {
+    font-size: 38px;
+    font-weight: 100;
+}
+h2 {
+    font-size: 24px;
+    font-weight: 100;
+}
+h3 {
+    font-size: 16px;
+    margin-top: -20px;
+    font-weight: 300;
+}
+h4{
+    font-size: 11px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: white;
+}
+h5 {
+    font-size: 20px;
+    margin-top: -20px;
+    font-weight: 100;
+}
+h6 {
+    font-size: 14px;
+    margin-top: -20px;
+    font-weight: 100;
+}
+
+
+
 /* TEXT */
 .descriptions {
     margin-left: 15px;
@@ -60,7 +99,57 @@ span {
 }
 .labels{
     font-size: 11px;
+    text-transform: uppercase;
 }
+
+.line{
+    width:70%;
+    margin-left: 10px;
+    background-color: pink;
+    border-bottom: .2px solid white;
+}
+
+/* LEARN MORE POPUPS */
+/* Popup container */
+.popup {
+    background-color: black;
+    position:fixed;
+    padding:0;
+    margin:0;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000000;
+}
+/* The actual popup (appears on top) */
+.popup .popuptext {
+    width: 500px;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 150px;  
+}
+
+.helpButtons{
+    float: right;
+    margin-top: 0px;
+    margin-right: 30px;
+    position: relative;text-decoration: none;
+}
+.popupClose{
+    text-align: center;
+}
+
+
+
+
+
+
+
+
 
 ::-webkit-scrollbar
 {

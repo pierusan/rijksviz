@@ -13,15 +13,24 @@
 <body>
     <div class="facesBody">
 
+
+
+      <!-- Banner -->
       <header>
          <a class="helpButtons" href="home.html"><h4>home</h4></a>
          <div class="helpButtons" onclick="learnMorePopup()"><h4>learn more</h4></div> 
          <h1 class="pageTitle">Faces of the Rijks</h1>
-         <h6 class="pageDescription">Each painting on display from the Hague School is broken down by its pixels and displayed as a string of colors sorted by hue. </h6>
+         <h6 class="pageDescription">Explore the individuals in the paintings of the Rijksmuseum through their social media pages.</h6>
       </header>
 
-
       <div class="line"></div>
+
+      <div id="learnFaces" class="hidden popup">
+         <div class="popuptext"><h5>Using a facial recognition API, Kairos, we identified all of the faces within the Rijksmuseum’s paintings. We playfully brought them to life by giving each of the “individuals” a social media page, where we listed their “personal information” such as birthday, nationality, and skin texture. By clicking through their “friends,” or faces randomly selected from other paintings, the user is led to browse new pages and can traverse the museum's collection.</h5></div>
+         <h4 class="popupClose" onclick="learnMorePopup()">close</h4>
+      </div>
+
+
 
 
       <div id="profile">

@@ -371,3 +371,10 @@ function getFaceById(faceId) {
       function(element){ return element.faceId == faceId }
   );
 }
+
+
+// When the user clicks on <div>, open the popup
+function learnMorePopup() {
+    var popup = document.getElementById("learnFaces");
+    popup.classList.toggle("hidden");
+}

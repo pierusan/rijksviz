@@ -1,7 +1,7 @@
 /* ALL */
 body {
-    background-color: black;
     color: white;
+    background-color: black;
     font-family: 'Lato', sans-serif;
     font-weight: 500;
 }
@@ -9,12 +9,18 @@ body {
     display: none;
 }
 header {
-    margin-left: 15px;
     margin-top: -10px;
+    z-index: 100;
+    left: 0;
+    width: 100%;
+    border-bottom:1px solid white;
+    background-color: black;
 }
 h1 {
-    font-size: 38px;
+    display: inline-block;
+    font-size: 25px;
     font-weight: 100;
+    margin-top: 25px;
 }
 h2 {
     font-size: 24px;
@@ -32,16 +38,125 @@ h4{
     color: white;
 }
 h5 {
-    font-size: 20px;
-    margin-top: -20px;
-    font-weight: 100;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    font-weight: 800;
+    font-size: 13px;
+    line-height: 19px;
 }
 h6 {
-    font-size: 14px;
-    margin-top: -20px;
-    font-weight: 100;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    font-size: 10.5px;
+    font-weight: 400;
+    line-height: 14px;
+    color: #F2F2F2;
+}
+.caret_expanded{
+    -ms-transform: scale(1.2,1.2) translate(0px, -5px) rotate(45deg); /* IE 9 */
+    -webkit-transform: scale(1.2,1.2) translate(0px, -5px) rotate(45deg); /* Safari */
+    transform: scale(1.2,1.2) translate(0px, -5px) rotate(45deg);
+    margin-left: 25px;
+    margin-right: 12px;
+}
+.caret_closed{
+    -ms-transform: scale(1.2,1.2) translate(0px, -3px) rotate(-45deg); /* IE 9 */
+    -webkit-transform: scale(1.2,1.2) translate(0px, -3px) rotate(-45deg); /* Safari */
+    transform: scale(1.2,1.2) translate(0px, -3px) rotate(-45deg);
+    margin-left: 20px;
+    margin-right: 17px;
+}
+i{
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 4px;
+    cursor:pointer;
+}
+.pageDescription{
+    margin-left: 25px;
+    background-color: black;
+}
+.pageDescriptionColumn{
+    margin-left: 30px;
+    width: 200px;
+    float: left;
+}
+.end{
+      clear: both;
 }
 
+
+/* DROP DOWN MENU */
+.hamburger{
+    position:absolute;
+    background-color: black;
+    width: 60px;
+    height: 70px;
+    top:0;
+    right:0;
+    line-height:45px;
+    padding:5px 15px 0px 15px;
+    color:white;
+    border:0;
+    font-size:1.4em;
+    font-weight:bold;
+    cursor:pointer;
+    outline:none;
+    z-index:10000000000000;
+    margin-right: 30px;
+}
+.cross{
+    position:absolute;
+    width: 60px;
+    height: 70px;
+    top:0px;
+    right:0;
+    padding:14px 15px 0px 15px;
+    color:black;
+    background-color: white;
+    border:0;
+    font-size:3.5em;
+    line-height:65px;
+    font-weight:bold;
+    cursor:pointer;
+    outline:none;
+    z-index:10000000000000;
+    margin-right: 30px;
+}
+.menu{
+    z-index:1000000000000000000000;
+    background-color: white;
+    width:180px;
+    text-align:center;
+    font-size:12px;
+    position: absolute;
+    right: 30px;
+    top: 70px;
+    clear: both;
+}
+.menu ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    list-style-image: none;
+}
+.menu li {
+    display: block;
+    height: 30px;
+    border-bottom:black 1px solid;
+    font-weight: 800;
+}
+.menu li:hover{
+    display: block;
+    background-color: #E2E2E2;
+}
+.menu a{
+    line-height: 28px;
+    text-decoration: none;
+    color:black;
+    
+}
 
 
 /* TEXT */
@@ -61,6 +176,39 @@ h6 {
 }
 
 
+/* LEARN MORE POPUPS */
+/* Popup container */
+.popup {
+    background-color: black;
+    position:fixed;
+    padding:0;
+    margin:0;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000000;
+}
+/* The actual popup (appears on top) */
+.popup .popuptext {
+    width: 500px;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 150px;  
+}
+
+.helpButtons{
+    float: right;
+    margin-top: 0px;
+    margin-right: 30px;
+    position: relative;text-decoration: none;
+}
+.popupClose{
+    text-align: center;
+}
 
 
 /* HAGUE SCHOOL MAIN LAYOUT (CONTAINERS) */
@@ -70,6 +218,7 @@ h6 {
     table-layout: fixed;
     width:100%;
     margin-bottom: 50px;
+    clear: both;
 }
 .tablecell {
     display: table-cell;
@@ -192,6 +341,7 @@ h6 {
 #icebergContainer{
     position: relative;
     overflow: hidden;
+    z-index: 0;
 }
 #iceberg {
     /* Preserve aspet ratio */
@@ -202,6 +352,7 @@ h6 {
     left: -9999px;
     right: -9999px;
     margin: auto;
+    z-index: -100;
 }
 
 
@@ -311,44 +462,3 @@ h6 {
     bottom: 30px;
 }
 
-
-.line{
-    width:70%;
-    margin-left: 10px;
-    background-color: pink;
-    border-bottom: .2px solid white;
-}
-
-/* LEARN MORE POPUPS */
-/* Popup container */
-.popup {
-    background-color: black;
-    position:fixed;
-    padding:0;
-    margin:0;
-    top:0;
-    left:0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000000;
-}
-/* The actual popup (appears on top) */
-.popup .popuptext {
-    width: 500px;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 150px;  
-}
-
-.helpButtons{
-    float: right;
-    margin-top: 0px;
-    margin-right: 30px;
-    position: relative;text-decoration: none;
-}
-.popupClose{
-    text-align: center;
-}

@@ -106,7 +106,45 @@ $(document).ready(function() {
       // }
    });
 
-    // color bar mouse entered
+
+   /* HEADER LEFT: TITLE & DESCRIPTION DROP DOWN */
+   // start hidden
+   $(".caret_closed").hide();
+   // hide description drop down
+   $(".caret_expanded").click(function() {
+      $(".caret_expanded").hide();
+      $(".caret_closed").show();
+      $(".pageDescription").slideToggle("slow", function() {});
+   });
+   // drop down
+   $(".caret_closed" ).click(function() {
+      $(".caret_closed").hide();
+      $(".caret_expanded").show();
+      $(".pageDescription").slideToggle("slow", function() {});
+   });
+
+
+   /* HEADER RIGHT: HAMBURGER NAVIGATION MENU */
+   // start hidden
+   $(".cross").hide();
+   $(".menu").hide();
+   // drop down
+   $(".hamburger" ).click(function() {
+      $('.hamburger').fadeOut(300, function(){
+         $('.cross').fadeIn(300);
+         $(".menu").slideToggle("slow", function() {});                      
+      });
+   });
+   // hide again
+   $(".cross").click(function() {
+      $(".menu").slideToggle("slow", function() {
+         $(".cross").hide();
+         $(".hamburger").show();
+      });
+   });
+
+
+   // color bar mouse entered
    $(".colorBars").mouseenter(function(){
       // get id number from string id
       var paintingID = this.id.substring(3);
