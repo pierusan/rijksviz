@@ -1,3 +1,6 @@
+var numberOfPaintings;
+var runningOrder = [];
+var paintingsRevealed = 0;
 var mapUrl = "Data/amsterdamMap.svg"; // Path for Amsterdam Vectorized Map
 var mapRatio = 1; // Dimensions ratio of the map
 var mapWidth = 700.; // Desired width for the map
@@ -31,8 +34,8 @@ var nbPixelInPlace = 0;
 var fadingOutDuration = 2000;
 var fadingOutDelay = 1000;
 var imageBg = "#191919";
-var imageBorder= "black"
-var rectBorder = "#555555"
+var imageBorder= "black";
+var rectBorder = "#555555";
 
 //Populate our array with the masterpieces data
 var masterPieces = [];
@@ -396,12 +399,40 @@ for (var i = 0; i < masterPieces.length; i++){
 console.log(masterPieces);
 
 
-
-
-
-createButtons();
+assignRunningOrder();
+//createButtons();
 loadMap();
 //displayMasterPiece(0);
+
+
+function assignRunningOrder(){
+  numberOfPaintings = d3.max(masterPieces, function (d) {return d.index;}) + 1;
+  runningOrder = randomPermutation(numberOfPaintings);
+}
+
+function randomPermutation(maxValue){
+  // first generate number sequence
+    var permArray = new Array(maxValue);
+    for(var i = 0; i < maxValue; i++){
+        permArray[i] = i;
+    }
+    // draw out of the number sequence
+    for (var i = (maxValue - 1); i >= 0; --i){
+        var randPos = Math.floor(i * Math.random());
+        var tmpStore = permArray[i];
+        permArray[i] = permArray[randPos];
+        permArray[randPos] = tmpStore;
+    }
+    return permArray;
+}
+
+function displayRandomMasterPiece(){
+  resetPage();
+  loadPixels(runningOrder[paintingsRevealed]);
+  animateMasterPiece(runningOrder[paintingsRevealed]);
+  paintingsRevealed++;
+  paintingsRevealed = paintingsRevealed % numberOfPaintings;
+}
 
 function displayMasterPiece(index){
   resetPage();
@@ -420,7 +451,7 @@ function createButtons(){
     })
     .html(function(d){
       return d.index;
-    })
+    });
 }
 
 function loadMap() {
@@ -524,19 +555,19 @@ function loadPixels(pieceIndex){
 function animateMasterPiece(pieceIndex){
   //Wait for the Pixels to be grabbed
   while (masterPieces[pieceIndex].colorsArray == null){
-    console.log("NOT LOADED YET");
+    //console.log("NOT LOADED YET");
     setTimeout(function(){
       animateMasterPiece(pieceIndex);
     },500);
     return;
   }
-  console.log(masterPieces[pieceIndex].colorsArray);
+  //console.log(masterPieces[pieceIndex].colorsArray);
 
   var placeholderSize = changePlaceHolderSize(masterPieces[pieceIndex].imageWidth, masterPieces[pieceIndex].imageHeight);
   pixelFinalSize = getPixSize(pieceIndex, placeholderSize);
   var pixels = createPix(pieceIndex);
   animatePix(pixels, masterPieces[pieceIndex].pathNumber);
-  console.log(placeholderSize);
+  //console.log(placeholderSize);
   revealPainting(pixels.size(), pieceIndex, placeholderSize);
 }
 
@@ -612,7 +643,7 @@ function addDataForPixels(pieceIndex){
     randomPath.push(Math.floor(Math.random() * numberOfPaths));
   }
 
-  console.log(randomPath);
+  //console.log(randomPath);
 
   for (var i = 0; i < masterPieces[pieceIndex].colorsArray.length; i++){
       //Add random offset between -1 and +1
@@ -764,7 +795,7 @@ function loadImage(imageUrl, imageWidth, imageHeight, pieceIndex){
   // get painting image data and create color bar
   img.onload = function() {
      var imagePixelData = GetImagePixelData(context, img, imageWidth, imageHeight);
-     console.log("Image Loaded!");
+     //console.log("Image Loaded!");
      masterPieces[pieceIndex].colorsArray = imagePixelData;
      //DisplayColors(imagePixelData, id, painting.title, painting.principalMaker, painting.dating.year, painting.webImage.url);
   };
