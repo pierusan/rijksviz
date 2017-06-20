@@ -430,6 +430,8 @@ function displayRandomMasterPiece(){
   resetPage();
   loadPixels(runningOrder[paintingsRevealed]);
   animateMasterPiece(runningOrder[paintingsRevealed]);
+  //loadPixels(42);
+  //animateMasterPiece(42);
   paintingsRevealed++;
   paintingsRevealed = paintingsRevealed % numberOfPaintings;
 }
