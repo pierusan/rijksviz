@@ -22,7 +22,7 @@
       <header>
 
          <!-- LEFT: title, drop down description, social media sharing icons -->
-         <i class="caret_expanded "></i>
+         <span class="caret_expanded">&#9432;</span>
          <i class="caret_closed"></i>
 
          <h1 class="pageTitle">Hague School</h1>
@@ -34,7 +34,7 @@
                <h6>The Hague School is a group of artists who lived and worked in The Hague, The Netherlands, between 1860 and 1890. The Rijksmuseum has a relatively comprehensive selection of these works; this collection is one of their biggest attractions. We showcased the paintings' colors because this group was known for using primarily gloomy and grayish colors at first, but later shifting to lighter and brighter colors under the influence of French Impressionism. Our algorithms grabbed evenly spaced pixels from each painting image to get an assortment of the painting's colors, sorted all of the colors by hue, and presented the painting as a strip of color.</h6>
             </div>
             <div class="pageDescriptionColumn">
-               <h6>The dimensions section stacks each painting outline on top of one another with their bottom-left corners aligned. The colors and dimensions visualizations are connected with interactivity so users can identify which dimensions couple with which colors upon hovering. The artists are also listed below to enable users to compare their use of specific colors and painting size.</h6>
+               <h6>The dimensions section stacks each painting outline on top of one another with their bottom-left corners aligned. The colors and dimensions visualizations are connected with interactivity so users can identify which dimensions couple with which colors upon hovering. The artists are also listed below to enable users to compare the use of color and size in their work.</h6>
             </div>
 
             <div class="end"></div>
@@ -65,24 +65,13 @@
       </header>
 
 
-
-
-      <div>
-        <input type="checkbox" id="forerunners" name="era" value="forerunners" checked>
-        <label for="coding">Forerunners</label>
-        <input type="checkbox" id="firstGen" name="era" value="firstGen">
-        <label for="coding">First Generation</label>
-        <input type="checkbox" id="secondGen" name="era" value="secondGen">
-        <label for="coding">Second Generation</label>
-      </div>
-
       <!-- PROGRESS BAR -->
       <!-- <div id="myProgress"></div> -->
 
       <div id="hagueContainer">
          <!-- LEFT: COLOR ROWS -->
          <div class="tablecell" id="colorsContainer">
-            <div id="colorLabel" class="labels">Each Painting as a Strip of its Colors</div>
+            <div id="colorLabel" class="labels_big">Each Painting as a Strip of its Colors</div>
             <canvas style="display: none;" id="canvas"></canvas>
             <div id="colorBarsContainer"></div>
          </div>
@@ -95,13 +84,23 @@
                <h2 id="paintingTitle">Title</h3>
                <h3 id="paintingArtist">Painting</h3>
             <div id="dimensionsMainContainer"><br>
-               <div id="yAxisLabel" class="labels">Painting<br>Dimension<br>Height</div>
+               <div id="yAxisLabel" class="labels_small">Painting<br>Canvas<br>Height</div>
                <div id="comprehensive"></div>
-               <div id="xAxisLabel" class="labels">Painting Dimension Width</div>
+               <div id="xAxisLabel" class="labels_small">Painting Canvas Width</div>
             </div>
 
             <!-- ALL ARTISTS (FILTERS) WITH SMALL MULTIPLES -->
-            <div id="dimensionsSmallMultContainer"><br>
+            <div id="dimensionsSmallMultContainer"><br><br><br>
+
+               <div class="labels_big"><span class="labels_big">Artists on Display:</span><br>
+                 <input type="checkbox" class="artistFilters" id="forerunners" name="era" value="forerunners" checked>
+                 <div class="checkboxLabels"><label for="coding">Forerunners</label></div>
+                 <input type="checkbox" class="artistFilters" id="firstGen" name="era" value="firstGen">
+                 <div class="checkboxLabels"><label for="coding">1st Generation</label></div>
+                 <input type="checkbox" class="artistFilters" id="secondGen" name="era" value="secondGen">
+                 <div class="checkboxLabels"><label for="coding">2nd Generation</label></div><br><br><br>
+               </div>
+
                <div id="artistCheckboxesContainer"></div>
                <div id="smallMultiplesContainer"></div>
             </div>
