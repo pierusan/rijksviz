@@ -1,5 +1,5 @@
 var POPUP_IMAGE_HEIGHT = 300;
-var LENGTH_COLOR_BARS = 625;
+var LENGTH_COLOR_BARS = 600;
 
 var hagueDataUrl = "Data/hague.json";
 
@@ -577,7 +577,7 @@ function DisplayColors(colors, paintingIdentifier, imageTitle, imageArtist, imag
     $("#colorBarsContainer" + '>#bar' + paintingIdentifier).data('imageDate', imageDate);
     $("#colorBarsContainer" + '>#bar' + paintingIdentifier).data('imageURL', imageURL);
     // add a date
-    $("#colorBarsContainer" + '>#bar' + paintingIdentifier).append('<div class="dates labels" id="date' + paintingIdentifier + '_' + i +'"><div id="dateLabel">' + imageDate + '</div></div>');
+    $("#colorBarsContainer" + '>#bar' + paintingIdentifier).append('<div class="dates labels_small" id="date' + paintingIdentifier + '_' + i +'"><div id="dateLabel">' + imageDate + '</div></div>');
     // go through each color in the array
     for (i = 0; i < colors.length; i++){
         // add a color strip
@@ -589,7 +589,7 @@ function DisplayColors(colors, paintingIdentifier, imageTitle, imageArtist, imag
     d3.select("#colorBarsContainer" + '>#bar' + paintingIdentifier)
       .on("mouseenter", function() {
         //Handle the change in color for the date of the painting
-        d3.select(this).select(".labels")
+        d3.select(this).select(".labels_small")
                        .select("#dateLabel")
                        .style("color", "#E50099");
 
@@ -645,7 +645,7 @@ function DisplayColors(colors, paintingIdentifier, imageTitle, imageArtist, imag
         d3.select(d3Mult.node().parentNode).select("rect")
                                              .style("stroke", "#E50099");
         d3.select(d3Mult.node().parentNode.parentNode.parentNode.parentNode)
-                                              .select(".labels")
+                                              .select(".labels_small")
                                               .select("label")
                                              .style("color", "#E50099");
 
@@ -656,7 +656,7 @@ function DisplayColors(colors, paintingIdentifier, imageTitle, imageArtist, imag
         d3.select("#paintingTitle").style("color", "black");
         d3.select("#paintingArtist").style("color", "black");
 
-        d3.select(this).select(".labels")
+        d3.select(this).select(".labels_small")
                        .select("#dateLabel")
                        .style("color", "white");
 
@@ -697,7 +697,7 @@ function DisplayColors(colors, paintingIdentifier, imageTitle, imageArtist, imag
         d3.select(d3Mult.node().parentNode).select("rect")
                                              .style("stroke", "white");
         d3.select(d3Mult.node().parentNode.parentNode.parentNode.parentNode)
-                                              .select(".labels")
+                                              .select(".labels_small")
                                               .select("label")
                                              .style("color", "white");
 
@@ -891,7 +891,7 @@ function CreateSmallMultFilters(artistLabel, numArtist, hagueEra){
    // artistLabel = artistLabel.split('%20').join(' ');
    // $("#smallMultiplesContainer").append('</div>');
    $("#smallMultiplesContainer").append('<div class="smallMults '+hagueEra+'SmallMult" id="smallMult_' + numArtist + '">' +
-        '<div class="checkboxContainers labels"><input type="checkbox" id="checkbox' + numArtist + '" class="checkboxes">' +
+        '<div class="checkboxContainers labels_small"><input type="checkbox" id="checkbox' + numArtist + '" class="checkboxes">' +
               '<label for="checkbox' + numArtist +'"><br>' + artistLabel + '</label></div></div>');
    $('#smallMultiplesContainer>.smallMults>.checkboxContainers>.checkboxes').prop('checked', true);
 }
@@ -1225,14 +1225,14 @@ function DisplayAllPaintingsDimensions(aggregateData, div, divID, divClass, init
                                         d3.select(d3Mult.node().parentNode).select("rect")
                                                                              .style("stroke", "#E50099");
                                         d3.select(d3Mult.node().parentNode.parentNode.parentNode.parentNode)
-                                                                              .select(".labels")
+                                                                              .select(".labels_small")
                                                                               .select("label")
                                                                              .style("color", "#E50099");
 
                                         var kateIdentifier = identifier.split('-').join('_');
                                         var barId = "bar"+kateIdentifier;
                                         d3.select("#"+barId)
-                                          .select(".labels")
+                                          .select(".labels_small")
                                           .select("#dateLabel")
                                           .style("color", "#E50099");
 
@@ -1269,14 +1269,14 @@ function DisplayAllPaintingsDimensions(aggregateData, div, divID, divClass, init
                                         d3.select(d3Mult.node().parentNode).select("rect")
                                                                              .style("stroke", "white");
                                         d3.select(d3Mult.node().parentNode.parentNode.parentNode.parentNode)
-                                                                              .select(".labels")
+                                                                              .select(".labels_small")
                                                                               .select("label")
                                                                              .style("color", "white");
 
                                         var kateIdentifier = identifier.split('-').join('_');
                                         var barId = "bar"+kateIdentifier;
                                         d3.select("#"+barId)
-                                          .select(".labels")
+                                          .select(".labels_small")
                                           .select("#dateLabel")
                                           .style("color", "white");
 
