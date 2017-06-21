@@ -2,6 +2,7 @@ var POPUP_IMAGE_HEIGHT = 300;
 var LENGTH_COLOR_BARS = 600;
 
 var hagueDataUrl = "Data/hague.json";
+var colorsDataUrl = "Data/colorsHague.json";
 
 var forerunnersCheckbox = document.querySelector('input[value="forerunners"]');
 var firstGenCheckbox = document.querySelector('input[value="firstGen"]');
@@ -62,6 +63,7 @@ var dimTotW = 200;
 // hover tool tip instead of drop down
 
 var paintersData = [];
+var colorsData = [];
 var cnt = [];
 var ready = [];
 
@@ -98,6 +100,22 @@ var painters = [//Wikipedia Forerunners
 
                 //Wikipedia Second Generation
                 ];
+
+
+d3.json(colorsDataUrl, function (json) {
+  console.log("COLORS DATA");
+  console.log(json);
+  colorsData = json;
+  console.log(getColorById(colorsData, "sk-a-4197")[0].colors);
+});
+
+function getColorById(colorArray,id) {
+  return colorArray.filter(
+      function(element){
+        //console.log(element);
+        return element.id == id; }
+  );
+}
 
 
 $(document).ready(function() {
@@ -178,7 +196,7 @@ $(document).ready(function() {
    $(".hamburger" ).click(function() {
       $('.hamburger').fadeOut(300, function(){
          $('.cross').fadeIn(300);
-         $(".menu").slideToggle("slow", function() {});                      
+         $(".menu").slideToggle("slow", function() {});
       });
    });
    // hide again
@@ -462,6 +480,9 @@ function DisplayPaintingColorInfo(paintingData){
             // $("#colorBarsContainer").append('<div class="barPopups hidden" id=barPopup' + id + '></div>');
          }
 
+         DisplayColors(getColorById(colorsData,painting.objectNumber.toLowerCase())[0].colors, id, painting.title, painting.principalMaker, painting.dating.sortingDate, imagesFolder+painting.objectNumber.toLowerCase()+".jpg");
+
+         /*
          var img = new Image();
          var context = document.getElementById('canvas').getContext('2d');
          //img.src = painting.webImage.url + '?' + new Date().getTime();
@@ -477,6 +498,8 @@ function DisplayPaintingColorInfo(paintingData){
             //DisplayColors(imagePixelData, id, painting.title, painting.principalMaker, painting.dating.sortingDate, painting.webImage.url);
             DisplayColors(imagePixelData, id, painting.title, painting.principalMaker, painting.dating.sortingDate, imagesFolder+painting.objectNumber.toLowerCase()+".jpg");
          };
+         */
+
       }
    }
 }
@@ -577,7 +600,8 @@ function DisplayColors(colors, paintingIdentifier, imageTitle, imageArtist, imag
     $("#colorBarsContainer" + '>#bar' + paintingIdentifier).data('imageDate', imageDate);
     $("#colorBarsContainer" + '>#bar' + paintingIdentifier).data('imageURL', imageURL);
     // add a date
-    $("#colorBarsContainer" + '>#bar' + paintingIdentifier).append('<div class="dates labels_small" id="date' + paintingIdentifier + '_' + i +'"><div id="dateLabel">' + imageDate + '</div></div>');
+    //$("#colorBarsContainer" + '>#bar' + paintingIdentifier).append('<div class="dates labels_small" id="date' + paintingIdentifier + '_' + i +'"><div id="dateLabel">' + imageDate + '</div></div>');
+    $("#colorBarsContainer" + '>#bar' + paintingIdentifier).append('<div class="dates labels_small" id="date' + paintingIdentifier +'"><div id="dateLabel">' + imageDate + '</div></div>');
     // go through each color in the array
     for (i = 0; i < colors.length; i++){
         // add a color strip
