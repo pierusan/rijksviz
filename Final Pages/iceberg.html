@@ -14,8 +14,8 @@
 
       <header>
          <!-- LEFT: title, drop down description, social media sharing icons -->
-         <i class="caret_expanded "></i>
-         <i class="caret_closed"></i>
+         <span class="caret_expanded information">&#9432;</span>
+         <span class="caret_closed information">&#9432;</span>
          <h1 class="pageTitle">Beyond the Exhibits</h1>
          <div class="pageDescription">
             <div class="pageDescriptionColumn">
@@ -25,7 +25,7 @@
                <h5>Their position above or below the x-axis is determined by whether they are currently on display or in the museum's storage facilities, respectively.</h5>
             </div>
             <div class="pageDescriptionColumn">
-               <h6>Visiting the museum’s exhibits only scratches the surface of the collection. We plan to expand this section to empower users to further browse archived art. This provides an exciting opportunity because it's one of the few clear advantages a virtual museum experience can have over an in-person experience.</h6>
+               <h6>Visiting the museum’s exhibits only scratches the surface of the collection. We plan to expand this section to empower you to further browse archived art. This provides an exciting opportunity because it's one of the few clear advantages a virtual museum experience can have over an in-person experience.</h6>
             </div>
             <div class="end"></div>
          </div>
@@ -38,7 +38,7 @@
             <ul>
                <a href="home.html"><li>HOME</li></a>
                <!-- <a href="iceberg.html"><li>BEYOND THE EXHIBITS</li></a> -->
-               <a href="#"><li>MASTERPIECES</li></a>
+               <a href="masterpieces.html"><li>MASTERPIECES</li></a>
                <a href="hague.html"><li>HAGUE SCHOOL</li></a>
                <a href="facesRijks.html"><li>FACES OF THE RIJKS</li></a>
                
@@ -50,11 +50,13 @@
                /* HEADER LEFT: TITLE & DESCRIPTION DROP DOWN */
                // start hidden
                $(".caret_closed").hide();
+               $(".pageDescription").hide();
                // hide description drop down
                $(".caret_expanded").click(function() {
                   $(".caret_expanded").hide();
                   $(".caret_closed").show();
                   $(".pageDescription").slideToggle("slow", function() {});
+                  $(".information").css("color", "white"); 
                });
                // drop down
                $(".caret_closed" ).click(function() {

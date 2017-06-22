@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Master Pieces</title>
+    <link rel="stylesheet" href="styles.css"/>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+    <header>
+
+        <!-- LEFT: title, drop down description, social media sharing icons -->
+        <i class="caret_expanded "></i>
+        <i class="caret_closed"></i>
+
+        <h1 class="pageTitle">Faces of the Rijks</h1>
+        <div class="pageDescription">
+        <div class="pageDescriptionColumn">
+           <h5>We identified all of the faces within the Rijksmuseum’s paintings and gave each of the “individuals” a personal social media page.</h5>
+        </div>
+        <div class="pageDescriptionColumn">
+           <h6>By clicking through their “friends,” or faces randomly selected from other paintings, the user is led to browse new pages and can traverse the museum's collection. To accomplish this, we used a facial recognition API called Kairos.</h6>
+        </div>
+        <div class="end"></div>
+        </div>
+
+        <!-- RIGHT: drop down to navigate home or to other projects -->
+        <button class="hamburger">&#9776;</button>
+        <button class="cross">&#735;</button>
+        <!-- menu that drops down -->
+        <div class="menu">
+        <ul>
+           <a href="home.html"><li>HOME</li></a>
+           <a href="iceberg.html"><li>BEYOND THE EXHIBITS</li></a>
+           <!-- <a href="masterpieces.html"><li>MASTERPIECES</li></a> -->
+           <a href="hague.html"><li>HAGUE SCHOOL</li></a>
+           <a href="facesRijks.html"><li>FACES OF THE RIJKS</li></a>
+
+        </ul>
+        </div> 
+    </header>
+
+<body>
+    <div id="masterpieceSelection">
+      <button onclick="displayRandomMasterPiece()">Next Painting</button>
+    </div>
+    <svg width = "1400" height="800" id ="svgContainer"> <!-- contains map and painting -->
+      <rect x="0" y="0" width="3000" height="3000" style="fill: black;"></rect>
+    </svg>
+    <div id="hiddenCanvas">
+      <canvas style="display: none;" id="canvas"></canvas>
+    </div>
+
+<script type="application/javascript" src="masterPieces.js"></script>
+</body>
+
+</html>

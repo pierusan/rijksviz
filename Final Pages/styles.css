@@ -15,6 +15,7 @@ header {
     width: 100%;
     border-bottom:1px solid white;
     background-color: black;
+    padding-bottom: 7px;
 }
 h1 {
     display: inline-block;
@@ -52,14 +53,15 @@ h6 {
     line-height: 14px;
     color: #F2F2F2;
 }
-.caret_expanded{
-    margin-left: 25px;
-    margin-right: 12px;
+.information{
+    margin-left: 20px;
+    margin-right: 9px;
     display: inline-block;
     padding: 4px;
     cursor:pointer;
+    color: #E50099;
 }
-.caret_closed{
+/*.caret_closed{
     -ms-transform: scale(1.2,1.2) translate(0px, -3px) rotate(-45deg); 
     -webkit-transform: scale(1.2,1.2) translate(0px, -3px) rotate(-45deg);
     transform: scale(1.2,1.2) translate(0px, -3px) rotate(-45deg);
@@ -70,10 +72,7 @@ h6 {
     display: inline-block;
     padding: 4px;
     cursor:pointer;
-}
-i{
-
-}
+}*/
 /* CARETS */
 /*.caret_expanded{
     -ms-transform: scale(1.2,1.2) translate(0px, -5px) rotate(45deg); 
@@ -98,7 +97,7 @@ i{
 }*/
 
 .pageDescription{
-    margin-left: 25px;
+    margin-left: 30px;
     background-color: black;
 }
 .pageDescriptionColumn{
@@ -277,7 +276,8 @@ i{
 #xAxisLabel{
     display: block;
     clear: both;
-    margin-left: 20px;
+    margin-left: 54px;
+    margin-top: 4px;
 }
 #dimensionsSmallMultContainer{
     margin: auto;

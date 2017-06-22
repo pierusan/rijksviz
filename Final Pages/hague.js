@@ -174,11 +174,13 @@ $(document).ready(function() {
    /* HEADER LEFT: TITLE & DESCRIPTION DROP DOWN */
    // start hidden
    $(".caret_closed").hide();
+   $(".pageDescription").hide();
    // hide description drop down
    $(".caret_expanded").click(function() {
       $(".caret_expanded").hide();
       $(".caret_closed").show();
       $(".pageDescription").slideToggle("slow", function() {});
+      $(".information").css("color", "white"); 
    });
    // drop down
    $(".caret_closed" ).click(function() {
