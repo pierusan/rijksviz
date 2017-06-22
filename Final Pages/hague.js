@@ -106,7 +106,8 @@ d3.json(colorsDataUrl, function (json) {
   console.log("COLORS DATA");
   console.log(json);
   colorsData = json;
-  console.log(getColorById(colorsData, "sk-a-4197")[0].colors);
+  // run code
+  RunAll();
 });
 
 function getColorById(colorArray,id) {
@@ -122,8 +123,7 @@ $(document).ready(function() {
   d3.select("#paintingTitle").style("color", "black");
   d3.select("#paintingArtist").style("color", "black");
 
-   // run code
-   RunAll();
+
 
    // checkboxes to filter by artists clicked
    $(".checkboxes").click(function(){
