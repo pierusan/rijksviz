@@ -41,9 +41,9 @@
                <a href="masterpieces.html"><li>MASTERPIECES</li></a>
                <a href="hague.html"><li>HAGUE SCHOOL</li></a>
                <a href="facesRijks.html"><li>FACES OF THE RIJKS</li></a>
-               
+
             </ul>
-         </div> 
+         </div>
 
          <script type="text/javascript">
             $(document).ready(function() {
@@ -56,7 +56,7 @@
                   $(".caret_expanded").hide();
                   $(".caret_closed").show();
                   $(".pageDescription").slideToggle("slow", function() {});
-                  $(".information").css("color", "white"); 
+                  $(".information").css("color", "white");
                });
                // drop down
                $(".caret_closed" ).click(function() {
@@ -74,7 +74,7 @@
                $(".hamburger" ).click(function() {
                   $('.hamburger').fadeOut(300, function(){
                      $('.cross').fadeIn(300);
-                     $(".menu").slideToggle("slow", function() {});                      
+                     $(".menu").slideToggle("slow", function() {});
                   });
                });
                // hide again
@@ -95,9 +95,11 @@
          <h4 class="popupClose" onclick="learnMorePopup()">close</h4>
       </div> -->
 
-      <svg id="icebergContainer">
-         <img src="assets/iceberg_legend.png" id="iceberg" alt="Graph of all paintings on display or in storage at the Rijksmuseum">
-      </svg>
+      <div id ="icebergDiv">
+        <svg id="icebergContainer">
+           <img src="assets/iceberg_legend.png" id="iceberg" alt="Graph of all paintings on display or in storage at the Rijksmuseum">
+        </svg>
+      </div>
 
       <script type="text/javascript">
          // When the user clicks on <div>, open the popup
