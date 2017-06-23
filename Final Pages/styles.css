@@ -15,6 +15,8 @@ header {
     width: 100%;
     border-bottom:1px solid white;
     background-color: black;
+}
+.exhibitHeader{
     padding-bottom: 7px;
 }
 h1 {
@@ -60,6 +62,7 @@ h6 {
     padding: 4px;
     cursor:pointer;
     color: #E50099;
+    font-size: 24px;
 }
 /*.caret_closed{
     -ms-transform: scale(1.2,1.2) translate(0px, -3px) rotate(-45deg); 
@@ -97,7 +100,7 @@ i{
 }*/
 
 .pageDescription{
-    margin-left: 30px;
+    margin-left: 37px;
     background-color: black;
 }
 .pageDescriptionColumn{
