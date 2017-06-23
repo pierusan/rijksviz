@@ -130,29 +130,20 @@ h6 {
     line-height: 14px;
     color: #F2F2F2;
 }
-.caret_expanded{
-    -ms-transform: scale(1.2,1.2) translate(0px, -5px) rotate(45deg); /* IE 9 */
-    -webkit-transform: scale(1.2,1.2) translate(0px, -5px) rotate(45deg); /* Safari */
-    transform: scale(1.2,1.2) translate(0px, -5px) rotate(45deg);
-    margin-left: 25px;
-    margin-right: 12px;
+.exhibitHeader{
+    padding-bottom: 5px;
 }
-.caret_closed{
-    -ms-transform: scale(1.2,1.2) translate(0px, -3px) rotate(-45deg); /* IE 9 */
-    -webkit-transform: scale(1.2,1.2) translate(0px, -3px) rotate(-45deg); /* Safari */
-    transform: scale(1.2,1.2) translate(0px, -3px) rotate(-45deg);
+.information{
     margin-left: 20px;
-    margin-right: 17px;
-}
-i{
-    border: solid white;
-    border-width: 0 3px 3px 0;
+    margin-right: 9px;
     display: inline-block;
     padding: 4px;
     cursor:pointer;
+    color: #E50099;
+    font-size: 24px;
 }
 .pageDescription{
-    margin-left: 25px;
+    margin-left: 37px;
     background-color: black;
 }
 .pageDescriptionColumn{
