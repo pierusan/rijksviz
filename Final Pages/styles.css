@@ -55,6 +55,17 @@ h6 {
     line-height: 14px;
     color: #F2F2F2;
 }
+.h2 {
+    font-size: 24px;
+    font-weight: 100;
+    color: white;
+}
+.h3 {
+    font-size: 16px;
+    margin-top: -20px;
+    font-weight: 300;
+    color: white;
+}
 .information{
     margin-left: 20px;
     margin-right: 9px;
@@ -520,3 +531,27 @@ i{
     bottom: 30px;
 }
 
+#nextPainting{
+    cursor:pointer;
+    outline-style: none;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 12px;
+    margin-left: 15px;
+    font-weight: 800;
+    font-family: Lato;
+    background-color: black; 
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 200px;
+    border:2px solid #E50099;
+    border-radius: 10px;
+    vertical-align: middle;
+}
+#nextPainting:hover{
+    background-color: #E50099;
+}

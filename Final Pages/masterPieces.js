@@ -3,7 +3,7 @@ var runningOrder = [];
 var paintingsRevealed = 0;
 var mapUrl = "Data/amsterdamMap.svg"; // Path for Amsterdam Vectorized Map
 var mapRatio = 1; // Dimensions ratio of the map
-var mapWidth = 700.; // Desired width for the map
+var mapWidth = 740.; // Desired width for the map
 var resizingFactor = 1; // Factor used when resizing the map to fit the webpage
 var numberOfPaths = 10;
 var mapSvg = null; // SVG element for the map
@@ -395,11 +395,13 @@ $(document).ready(function() {
    /* HEADER LEFT: TITLE & DESCRIPTION DROP DOWN */
    // start hidden
    $(".caret_closed").hide();
+   $(".pageDescription").hide();
    // hide description drop down
    $(".caret_expanded").click(function() {
       $(".caret_expanded").hide();
       $(".caret_closed").show();
       $(".pageDescription").slideToggle("slow", function() {});
+      $(".information").css("color", "white"); 
    });
    // drop down
    $(".caret_closed" ).click(function() {
@@ -559,7 +561,7 @@ function createImageContainer(){
 
 function createTitlesContainer(){
   var titlesX = mapWidth + titlesOffsetX;
-  var titlesY = titlesOffsetY;
+  var titlesY = 20;
 
   titlesPlaceHolder = d3.select("#svgContainer")
                         .append("g")
@@ -568,11 +570,15 @@ function createTitlesContainer(){
   titlesPlaceHolder.append("text")
                    .attr("x", 0)
                    .attr("y", 0)
+                   .classed("h2", true)
+                   .style('fill', 'white')
                    .attr("id","masterPieceTitle");
 
   titlesPlaceHolder.append("text")
                    .attr("x", 0)
                    .attr("y", subtitleOffsetY)
+                   .classed("h3", true)
+                   .style('fill', 'white')
                    .attr("id","masterPieceSubtitle");
 }
 

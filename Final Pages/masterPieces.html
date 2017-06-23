@@ -10,11 +10,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 
-    <header>
+    <header class="exhibitHeader">
 
-        <!-- LEFT: title, drop down description, social media sharing icons -->
-        <i class="caret_expanded "></i>
-        <i class="caret_closed"></i>
+         <!-- LEFT: title, drop down description, social media sharing icons -->
+         <span class="caret_expanded information">&#9432;</span>
+         <span class="caret_closed information">&#9432;</span>
 
         <h1 class="pageTitle">Faces of the Rijks</h1>
         <div class="pageDescription">
@@ -45,11 +45,15 @@
 
 <body>
     <div id="masterpieceSelection">
-      <button onclick="displayRandomMasterPiece()">Next Painting</button>
+      <div id="buttonContainer">
+        <button id="nextPainting" onclick="displayRandomMasterPiece()">NEXT PAINTING</button>
+      </div>
     </div>
+
     <svg width = "1400" height="800" id ="svgContainer"> <!-- contains map and painting -->
       <rect x="0" y="0" width="3000" height="3000" style="fill: black;"></rect>
     </svg>
+
     <div id="hiddenCanvas">
       <canvas style="display: none;" id="canvas"></canvas>
     </div>
