@@ -401,7 +401,7 @@ $(document).ready(function() {
       $(".caret_expanded").hide();
       $(".caret_closed").show();
       $(".pageDescription").slideToggle("slow", function() {});
-      $(".information").css("color", "white"); 
+      $(".information").css("color", "white");
    });
    // drop down
    $(".caret_closed" ).click(function() {
@@ -419,7 +419,7 @@ $(document).ready(function() {
    $(".hamburger" ).click(function() {
       $('.hamburger').fadeOut(300, function(){
          $('.cross').fadeIn(300);
-         $(".menu").slideToggle("slow", function() {});                      
+         $(".menu").slideToggle("slow", function() {});
       });
    });
    // hide again
@@ -432,7 +432,7 @@ $(document).ready(function() {
 
   //Search the whole collection and display the iceberg at the end
   //advSearch(searchUrl);
-   
+
 });
 
 
@@ -472,10 +472,10 @@ function randomPermutation(maxValue){
 
 function displayRandomMasterPiece(){
   resetPage();
-  loadPixels(runningOrder[paintingsRevealed]);
-  animateMasterPiece(runningOrder[paintingsRevealed]);
-  //loadPixels(42);
-  //animateMasterPiece(42);
+  //loadPixels(runningOrder[paintingsRevealed]);
+  //animateMasterPiece(runningOrder[paintingsRevealed]);
+  loadPixels(42);
+  animateMasterPiece(42);
   paintingsRevealed++;
   paintingsRevealed = paintingsRevealed % numberOfPaintings;
 }
