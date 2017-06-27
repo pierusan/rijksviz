@@ -564,4 +564,10 @@ i{
 
 #nextPainting:disabled{
     color: black;
+    border:2px solid black;
+}
+
+#nextPainting:disabled:hover{
+    background-color: black;
+    cursor: default;
 }
