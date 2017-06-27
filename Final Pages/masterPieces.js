@@ -471,6 +471,7 @@ function randomPermutation(maxValue){
 }
 
 function displayRandomMasterPiece(){
+  document.getElementById("nextPainting").disabled = true;
   resetPage();
   loadPixels(runningOrder[paintingsRevealed]);
   animateMasterPiece(runningOrder[paintingsRevealed]);
@@ -832,6 +833,8 @@ function revealPainting(totalNbOfPixels, pieceIndex, placeholderSize){
     .delay(fadingOutDelay)
     .duration(fadingOutDuration)
     .style("opacity", 1);
+
+  document.getElementById("nextPainting").disabled = false;
 }
 
 
