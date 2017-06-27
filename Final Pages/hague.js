@@ -47,7 +47,7 @@ secondGenCheckbox.onchange = function(){
   }
 }
 
-var imagesFolder = "Data/Images/"
+var imagesFolder = "Data/ImagesResized20/"
 
 var nbWithoutDim = 0;
 
@@ -180,7 +180,7 @@ $(document).ready(function() {
       $(".caret_expanded").hide();
       $(".caret_closed").show();
       $(".pageDescription").slideToggle("slow", function() {});
-      $(".information").css("color", "white"); 
+      $(".information").css("color", "white");
    });
    // drop down
    $(".caret_closed" ).click(function() {

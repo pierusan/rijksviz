@@ -8,7 +8,7 @@ var resizingFactor = 1; // Factor used when resizing the map to fit the webpage
 var numberOfPaths = 10;
 var mapSvg = null; // SVG element for the map
 var animationGroup = null; // Group withing the svg where the pixels will flow;
-var imagesFolder = "Data/Images/"; // Path where the images of the masterpieces are saved
+var imagesFolder = "Data/ImagesResized90/"; // Path where the images of the masterpieces are saved
 var numberOfPixelsUsed = 600; // Numbe Of Pixels we will actually use from the painting web image
 var batchSize = 120.;
 var delayBtwBatches = 4500;
@@ -472,10 +472,10 @@ function randomPermutation(maxValue){
 
 function displayRandomMasterPiece(){
   resetPage();
-  loadPixels(runningOrder[paintingsRevealed]);
-  animateMasterPiece(runningOrder[paintingsRevealed]);
-  //loadPixels(42);
-  //animateMasterPiece(42);
+  //loadPixels(runningOrder[paintingsRevealed]);
+  //animateMasterPiece(runningOrder[paintingsRevealed]);
+  loadPixels(42);
+  animateMasterPiece(42);
   paintingsRevealed++;
   paintingsRevealed = paintingsRevealed % numberOfPaintings;
 }
