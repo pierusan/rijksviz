@@ -571,3 +571,21 @@ i{
     background-color: black;
     cursor: default;
 }
+
+
+
+.footer{
+    width: 90%;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+.footerIceberg{
+    width: 97%;
+    border-right: 120px;
+    text-align: right;
+    position: fixed;
+    bottom: 10px;
+}
+
+
+
