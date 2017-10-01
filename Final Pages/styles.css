@@ -620,3 +620,53 @@ i{
     color: black;
     margin-bottom: 0px;
 }
+
+
+
+/* SOCIAL MEDIA */
+.socialmediabuttons{
+    float: right;
+    width: 60px;
+    margin-right: 10px;
+}
+
+
+
+.contactnames{
+    font-size: 40px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 20px;
+    margin-top: 45px;
+    text-decoration: none;
+    color: white;
+    margin-left: 40px;
+}
+.contactwebsites{
+    font-size: 25px;
+    font-weight: 300;
+    margin-left: 80px;
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: white;
+}
+.contactemails{
+    font-size: 25px;
+    font-weight: 300;
+    margin-left: 80px;
+    text-decoration: none;
+    color: white;
+}
+.emails{
+    margin-bottom: 70px;
+}
+#contact1{
+    color: black;
+    opacity: 0;
+    cursor: default;
+}
+#contact2{
+    color: black;
+    opacity: 0;
+    cursor: default;
+}

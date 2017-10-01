@@ -59,6 +59,13 @@
       <rect x="0" y="0" width="3000" height="100" style="fill: black;"></rect>
     </svg>
 
+    <!-- Social Media Links -->
+    <div class="socialmediabuttons">
+      <a id="tweet" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button socialmedialinks" data-text="Visualize the art of the Rijksmuseum in Amsterdam: Masterpieces" data-url="http://vijks.com/" data-hashtags="IEEEVis" data-show-count="false">Tweet</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+      <div class="fb-share-button socialmedialinks" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Share</a></div>
+    </div>
+
     <div class="footer"><h6>This site was developed using the Rijksmuseum API. All images belong to the Rijksmuseum Collection.</h6></div>
 
     <div id="hiddenCanvas">
@@ -77,5 +84,15 @@
 
 </script>
 </body>
+
+   <!-- Facebook social media link -->
+   <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 
 </html>
