@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Faces of the Rijks</title>
+    <link rel="stylesheet" href="facesStyles.css"/>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,200,300,400,500,600" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="facesBody">
+
+      <!--Title on the top left-->
+      <header class="exhibitHeader">
+         <h1 class="pageTitle">Faces of the Rijks</h1>
+      </header>
+
+      <!--Centered Main Profile Information-->
+      <div id="profile2">
+
+        <!--Profile Picture-->
+        <div id="profilePicContainer">
+          <div id="profilePic">
+            <svg id="profilePicSvg">
+            </svg>
+          </div>
+        </div>
+
+        <!--Profile Picture-->
+        <div id="profileInfo2">
+          Birthday: <span id="birthday"></span>
+          <br />
+          Skin texture: <span id="skin"></span>
+          <br />
+          Left in the back room: <span id="onDisplay"></span>
+        </div>
+
+      </div>
+
+
+      <div class="tabs">
+        <div id="friends" class="tabDiv">
+          <div id="friendsTitle" class="tabTitle">
+            <h3>FRIENDS</h3>
+          </div>
+          <div id="friendsContent" class="tabContent">
+            <div id="closeFriendsDiv" width="100%" height= "300">
+              <!-- Close Friends -->
+              <br />
+              <div id="closeFriendsSvgs" width="100" height="100">
+              </div>
+            </div>
+            <!-- Distant Relations -->
+            <div id="distantRelationsSvgs" width="100%", height="1000">
+            </div>
+          </div>
+        </div>
+
+
+        <div id="photos" class="tabDiv">
+          <div id="photosTitle" class="tabTitle">
+            <h3>PHOTOS</h3>
+          </div>
+          <div id="photosContent" class="tabContent">
+            <div id="paintingPic">
+              <img id="paintingImg" height="100%" />
+            </div>
+            <div id="paintingTitle">
+
+            </div>
+          </div>
+        </div>
+
+        <div id="maker" class="tabDiv">
+          <div id="aboutTitle" class="tabTitle">
+            <h3>ABOUT ME</h3>
+          </div>
+
+          <div id="aboutContent" class="tabContent">
+            Estimated ethnicity: <span id="ethnicity"></span>
+            <br />
+            Estimated Gender: <span id="gender"></span>
+            <br />
+            Height from forehead to chin: <span id="faceHeight"></span>
+            <br />
+            Intercheek distance: <span id="faceWidth"></span>
+
+            <div id="aboutMyMaker">
+              <h3>ABOUT MY MAKER</h3>
+            </div>
+
+            <div id="myMakerContent">
+              Name: <span id="makerName"></span>
+              <br />
+              Birth: <span id="makerBirthDate"></span> <span id="in">in </span><span id="makerBirthPlace"></span>
+              <br />
+              Death: <span id="makerDeathDate"></span> <span id="in">in </span><span id="makerDeathPlace"></span>
+              <br />
+              Nationality: <span id="makerNationality"></span>
+              <br />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer"><h6>This site was developed using the Rijksmuseum API. All images belong to the Rijksmuseum Collection.</h6></div>
+
+<script type="application/javascript" src="facesRijksmuseum.js"></script>
+</body>
+
+</html>

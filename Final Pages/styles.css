@@ -351,7 +351,7 @@ i{
     clear: both;
     left: 50%;
     transform: translate(-50%);
-    width: 800px;
+    width: 850px;
     position: absolute;
     margin-top: 200px;
 }
@@ -586,6 +586,3 @@ i{
     position: fixed;
     bottom: 10px;
 }
-
-
-
