@@ -1,7 +1,7 @@
 var numberOfPaintings;
 var runningOrder = [];
 var paintingsRevealed = 0;
-var mapUrl = "Data/amsterdamMap.svg"; // Path for Amsterdam Vectorized Map
+var mapUrl = "Data/amsterdamMapSave.svg"; // Path for Amsterdam Vectorized Map
 var mapRatio = 1; // Dimensions ratio of the map
 var mapWidth = 740.; // Desired width for the map
 var resizingFactor = 1; // Factor used when resizing the map to fit the webpage
